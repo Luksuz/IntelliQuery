@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG App</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #F0F4F8;
+      color: #333;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #FFFFFF;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #5A6473;
+    }
+
+    label {
+      font-size: 16px;
+      margin-bottom: 10px;
+      display: block;
+      text-align: left;
+      color: #5A6473;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #C3CAD9;
+      margin-bottom: 20px;
+      font-size: 16px;
+      box-sizing: border-box;
+      background-color: #F7FAFC;
+      color: #333;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      background-color: #A7BED3;
+      color: #333;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #C3CAD9;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #F0F4F8;
+      border-radius: 6px;
+      font-size: 16px;
+      text-align: left;
+      color: #333;
+    }
+
+    #loader {
+      width: 40px;
+      height: 40px;
+      border: 6px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 6px solid #A7BED3;
+      animation: spin 1s linear infinite;
+      display: none;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .contact-info {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #C3CAD9;
+      font-size: 14px;
+      text-align: left;
+      color: #5A6473;
+    }
+
+    .contact-info p {
+      margin: 5px 0;
+    }
+
+    .contact-info a {
+      color: #5A6473;
+      text-decoration: none;
+    }
+
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #5A6473;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RAG App Interface</h1>
+    <form id="queryForm">
+      <label for="queryInput">Enter your query:</label>
+      <input
+        type="text"
+        id="queryInput"
+        name="queryInput"
+        placeholder="Ask something about the content..."
+        required
+      />
+      <button type="submit">Get Response</button>
+    </form>
+
+    <div id="loader"></div>
+
+    <div id="result" class="result"></div>
+
+    <div class="contact-info">
+      <p>Need a custom RAG app? Contact me:</p>
+      <p><a href="http://lukamindek.com" target="_blank">lukamindek.com</a></p>
+      <p>Email: <a href="mailto:lukamindjek@gmail.com">lukamindjek@gmail.com</a></p>
+      <p>Phone: 095 767 4099</p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2024 Luka Mindek</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+
+      loader.style.display = "block";
+      resultBox.textContent = "";
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/query_rag", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        loader.style.display = "none";
+        resultBox.textContent = data.answer || "No answer received";
+      })
+      .catch((error) => {
+        loader.style.display = "none";
+        resultBox.textContent = "Error fetching response";
+        console.error("Error:", error);
+      });
+    });
+  </script>
+</body>
+</html>
