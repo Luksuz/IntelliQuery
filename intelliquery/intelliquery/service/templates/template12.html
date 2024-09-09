@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Cyberpunk color palette and styles */
+    body {
+      background-color: #0d0d0d; /* Dark background */
+      color: #e0e0e0;
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    }
+
+    h1, h2, label {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Neon glow for the main container */
+    .cyberpunk-bg {
+      background: #111;
+      border: 2px solid #00ffcc; /* Neon cyan border */
+      box-shadow: 0 0 20px #00ffcc;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .cyberpunk-btn {
+      background-color: #ff007f; /* Neon pink */
+      color: #fff;
+      padding: 12px 24px;
+      border: 2px solid #ff007f;
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 40px #ff007f;
+    }
+
+    .cyberpunk-btn:hover {
+      background-color: #ff33a8;
+      border-color: #ff33a8;
+      box-shadow: 0 0 20px #ff33a8, 0 0 30px #ff33a8, 0 0 50px #ff33a8;
+    }
+
+    /* Neon glow for input fields */
+    .cyberpunk-input {
+      background-color: #222;
+      border: 2px solid #00ffcc;
+      color: #00ffcc;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    .cyberpunk-input:focus {
+      outline: none;
+      border-color: #00ffee;
+      box-shadow: 0 0 20px #00ffee;
+    }
+
+    /* Glowing loader */
+    .loader {
+      border: 5px solid #333;
+      border-top: 5px solid #00ffcc;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Neon glow for rating stars */
+    .rating-star {
+      cursor: pointer;
+      color: #555;
+      text-shadow: 0 0 5px #555;
+    }
+
+    .rating-star.selected {
+      color: #ff007f; /* Neon pink for selected stars */
+      text-shadow: 0 0 10px #ff007f;
+    }
+
+    /* Notification */
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #00ffcc;
+      color: #111;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+  <!-- Notification Banner -->
+  <div id="notification" class="notification">Query submitted successfully!</div>
+
+  <!-- Main Container -->
+  <div class="cyberpunk-bg w-full max-w-3xl space-y-8 relative">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-teal-300">WEBSITE_TITLE</h1>
+      <a href="mailto:contact@cyberpunk.com" class="text-sm text-teal-300 hover:underline">Contact Support</a>
+    </div>
+
+    <!-- Form Section -->
+    <div>
+      <h2 class="text-xl font-semibold text-pink-600">INPUT_TITLE</h2>
+      <form id="queryForm" class="space-y-4">
+        <div>
+          <label for="queryInput" class="block text-teal-300">INPUT_TITLE</label>
+          <input 
+            type="text" 
+            id="queryInput" 
+            name="queryInput" 
+            class="w-full mt-2 p-3 cyberpunk-input rounded-lg"
+            placeholder="INPUT_PLACEHOLDER" 
+            required
+          />
+        </div>
+
+        <div class="flex justify-center">
+          <button 
+            type="submit" 
+            class="cyberpunk-btn rounded-lg">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="flex justify-center items-center mt-6 hidden">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result" class="mt-6 p-4 bg-gray-900 text-teal-300 rounded-lg hidden shadow-lg">
+      <!-- Result text will go here -->
+    </div>
+
+    <!-- Query History Section -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-semibold text-purple-600">Previous Queries</h2>
+      <ul id="queryHistory" class="space-y-2">
+        <li class="p-3 bg-gray-800 rounded-lg text-teal-300">What is cyberpunk culture?</li>
+        <li class="p-3 bg-gray-800 rounded-lg text-teal-300">How does artificial intelligence shape the future?</li>
+      </ul>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="text-center">
+      <h2 class="text-xl font-semibold text-pink-600">Rate the Accuracy</h2>
+      <div class="flex justify-center space-x-1 mt-4">
+        <span class="rating-star text-3xl" data-rating="1">★</span>
+        <span class="rating-star text-3xl" data-rating="2">★</span>
+        <span class="rating-star text-3xl" data-rating="3">★</span>
+        <span class="rating-star text-3xl" data-rating="4">★</span>
+        <span class="rating-star text-3xl" data-rating="5">★</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 text-center text-sm text-teal-300">
+      <p>More about Cyberpunk? Visit <a href="https://www.cyberpunk.net" target="_blank" class="hover:underline">cyberpunk.net</a></p>
+      <p>&copy; 2024 Cyberpunk RAG App, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+      const notification = document.getElementById("notification");
+
+      loader.classList.remove("hidden");
+      resultBox.textContent = "";
+      resultBox.classList.add("hidden");
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          notification.textContent = "Error submitting query!";
+          notification.classList.add("error");
+          notification.style.display = "block";
+          console.error("Error:", error);
+        });
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-star").forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
+      });
+    });
+  </script>
+</body>
+</html>

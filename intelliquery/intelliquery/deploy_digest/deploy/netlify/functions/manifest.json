@@ -1,0 +1,24 @@
+{
+    "functions": [
+      {
+        "name": "search",
+        "runtime": "js",
+        "runtimeVersion": "nodejs18.x",
+        "buildData": {
+          "runtimeAPIVersion": 1
+        },
+        "invocationMode": "sync",
+        "routes": []
+      },
+      {
+        "name": "delete",
+        "runtime": "js",
+        "runtimeVersion": "nodejs18.x",
+        "buildData": {
+          "runtimeAPIVersion": 1
+        },
+        "invocationMode": "sync",
+        "routes": []
+      }
+    ]
+  }

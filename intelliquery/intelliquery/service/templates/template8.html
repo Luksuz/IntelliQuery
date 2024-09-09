@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAG App Interface</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Additional styles for animations, toggles, and ratings */
+    .hidden-advanced {
+      display: none;
+    }
+
+    .rating-star {
+      cursor: pointer;
+      color: #4a5568;
+    }
+
+    .rating-star.selected {
+      color: #f59e0b;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-300 flex items-center justify-center min-h-screen">
+
+  <div class="bg-gray-800 shadow-xl rounded-lg p-8 w-full max-w-3xl space-y-6">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-bold text-yellow-400">RAG App</h1>
+      <a href="mailto:lukamindjek@gmail.com" class="text-sm text-yellow-300 hover:underline">Contact Support</a>
+    </div>
+
+    <!-- Tabs for Query Types -->
+    <div class="border-b border-gray-700 mb-6">
+      <nav class="flex space-x-4" id="queryTabs">
+        <button class="text-yellow-400 pb-2 border-b-2 border-yellow-400 focus:outline-none">Simple Query</button>
+        <button class="text-gray-500 hover:text-yellow-400 pb-2 focus:outline-none">Advanced Query</button>
+      </nav>
+    </div>
+
+    <!-- Form Section -->
+    <form id="queryForm" class="space-y-6">
+      <div>
+        <label for="queryInput" class="block text-gray-400 font-medium">Your Question:</label>
+        <input 
+          type="text" 
+          id="queryInput" 
+          name="queryInput" 
+          class="w-full mt-2 p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-gray-300 placeholder-gray-500"
+          placeholder="Ask something about the content..." 
+          required 
+        />
+      </div>
+
+      <!-- Advanced Search Options -->
+      <div id="advancedOptions" class="hidden-advanced space-y-4">
+        <div>
+          <label for="category" class="block text-gray-400 font-medium">Category:</label>
+          <select id="category" class="w-full mt-2 p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-300">
+            <option value="">Select Category</option>
+            <option value="tech">Tech</option>
+            <option value="science">Science</option>
+            <option value="history">History</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="dateRange" class="block text-gray-400 font-medium">Date Range:</label>
+          <input 
+            type="date" 
+            id="dateRange" 
+            class="w-full mt-2 p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-300"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button 
+          type="submit" 
+          class="w-1/2 bg-yellow-500 text-gray-900 font-semibold py-3 rounded-lg hover:bg-yellow-600 transition">
+          Submit
+        </button>
+        <button 
+          type="button" 
+          id="toggleAdvanced" 
+          class="text-sm text-yellow-400 hover:underline">
+          Toggle Advanced Search
+        </button>
+      </div>
+    </form>
+
+    <!-- Loader -->
+    <div id="loader" class="flex justify-center items-center mt-6 hidden">
+      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-yellow-500"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result" class="mt-6 p-4 bg-gray-700 rounded-lg text-gray-200"></div>
+
+    <!-- Query History Section -->
+    <div id="queryHistory" class="mt-6">
+      <h2 class="text-lg font-semibold text-gray-400 mb-4">Previous Queries</h2>
+      <ul class="space-y-2">
+        <!-- Example history items -->
+        <li class="p-2 bg-gray-700 rounded-lg text-gray-400">How does quantum computing work?</li>
+        <li class="p-2 bg-gray-700 rounded-lg text-gray-400">What's the latest in AI research?</li>
+      </ul>
+    </div>
+
+    <!-- Feedback Section -->
+    <div id="feedback" class="mt-6 text-center">
+      <h3 class="text-lg font-medium text-gray-400 mb-4">Rate the accuracy of this result:</h3>
+      <div class="flex justify-center space-x-1">
+        <span class="rating-star text-2xl" data-rating="1">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="2">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="3">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="4">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="5">&#9733;</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 border-t border-gray-700 pt-4 text-center text-sm text-gray-500">
+      <p>Need more info? Visit <a href="http://lukamindek.com" target="_blank" class="text-yellow-400 hover:underline">lukamindek.com</a></p>
+      <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+
+      loader.classList.remove("hidden");
+      resultBox.textContent = "";
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          console.error("Error:", error);
+        });
+    });
+
+    // Toggle advanced options
+    document.getElementById("toggleAdvanced").addEventListener("click", function () {
+      const advancedOptions = document.getElementById("advancedOptions");
+      advancedOptions.classList.toggle("hidden-advanced");
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-star").forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
+      });
+    });
+  </script>
+</body>
+</html>

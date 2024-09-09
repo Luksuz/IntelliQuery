@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Additional styling for animations and advanced toggle */
+    .hidden-advanced {
+      display: none;
+    }
+
+    .rating-star {
+      cursor: pointer;
+      color: #ddd;
+    }
+
+    .rating-star.selected {
+      color: #ffc107;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl space-y-6">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-3xl font-semibold text-blue-600">WEBSITE_TITLE</h1>
+      <a href="mailto:lukamindjek@gmail.com" class="text-sm text-blue-500 hover:underline">Contact Support</a>
+    </div>
+
+    <!-- Tabs for Query Types -->
+    <div class="border-b mb-6">
+      <nav class="flex space-x-4" id="queryTabs">
+        <button class="text-blue-600 pb-2 border-b-2 border-blue-600 focus:outline-none">Simple Query</button>
+        <button class="text-gray-500 hover:text-blue-600 pb-2 focus:outline-none">Advanced Query</button>
+      </nav>
+    </div>
+
+    <!-- Form Section -->
+    <form id="queryForm" class="space-y-6">
+      <div>
+        <label for="queryInput" class="block text-gray-700 font-medium">Your Question:</label>
+        <input 
+          type="text" 
+          id="queryInput" 
+          name="queryInput" 
+          class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Ask something about the content..." 
+          required 
+        />
+      </div>
+
+      <!-- Advanced Search Options -->
+      <div id="advancedOptions" class="hidden-advanced space-y-4">
+        <div>
+          <label for="category" class="block text-gray-700 font-medium">Category:</label>
+          <select id="category" class="w-full mt-2 p-3 border border-gray-300 rounded-lg">
+            <option value="">Select Category</option>
+            <option value="tech">Tech</option>
+            <option value="science">Science</option>
+            <option value="history">History</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="dateRange" class="block text-gray-700 font-medium">Date Range:</label>
+          <input 
+            type="date" 
+            id="dateRange" 
+            class="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button 
+          type="submit" 
+          class="w-1/2 bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition">
+          Submit
+        </button>
+        <button 
+          type="button" 
+          id="toggleAdvanced" 
+          class="text-sm text-blue-500 hover:underline">
+          Toggle Advanced Search
+        </button>
+      </div>
+    </form>
+
+    <!-- Loader -->
+    <div id="loader" class="flex justify-center items-center mt-6 hidden">
+      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result" class="mt-6 p-4 bg-gray-100 rounded-lg text-gray-800"></div>
+
+    <!-- Query History Section -->
+    <div id="queryHistory" class="mt-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Previous Queries</h2>
+      <ul class="space-y-2">
+        <!-- Example history items -->
+        <li class="p-2 bg-gray-50 rounded-lg text-gray-600">How does quantum computing work?</li>
+        <li class="p-2 bg-gray-50 rounded-lg text-gray-600">What's the latest in AI research?</li>
+      </ul>
+    </div>
+
+    <!-- Feedback Section -->
+    <div id="feedback" class="mt-6 text-center">
+      <h3 class="text-lg font-medium text-gray-700 mb-4">Rate the accuracy of this result:</h3>
+      <div class="flex justify-center space-x-1">
+        <span class="rating-star text-2xl" data-rating="1">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="2">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="3">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="4">&#9733;</span>
+        <span class="rating-star text-2xl" data-rating="5">&#9733;</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 border-t pt-4 text-center text-sm text-gray-500">
+      <p>Need more info? Visit <a href="http://lukamindek.com" target="_blank" class="text-blue-500 hover:underline">lukamindek.com</a></p>
+      <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+
+      loader.classList.remove("hidden");
+      resultBox.textContent = "";
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          console.error("Error:", error);
+        });
+    });
+
+    // Toggle advanced options
+    document.getElementById("toggleAdvanced").addEventListener("click", function () {
+      const advancedOptions = document.getElementById("advancedOptions");
+      advancedOptions.classList.toggle("hidden-advanced");
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-star").forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
+      });
+    });
+  </script>
+</body>
+</html>

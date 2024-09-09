@@ -33,6 +33,9 @@ def get_loader(filepath, file_extension):
 def determine_chunk_size(document, base_chunk_size=500, scaling_factor=0.1, min_chunk_size=300, max_chunk_size=2000):
     text_length = len(document.split())
     dynamic_chunk_size = base_chunk_size + int(scaling_factor * text_length)
+    chunk_size = max(min_chunk_size, min(dynamic_chunk_size, max_chunk_size))
     
-    return max(min_chunk_size, min(dynamic_chunk_size, max_chunk_size))
+    return chunk_size, chunk_size // 10
+
+
 

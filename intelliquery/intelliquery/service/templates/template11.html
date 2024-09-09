@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Hello Kitty color palette and styling */
+    body {
+      background-color: #ffe4e1; /* Soft pink background */
+      font-family: 'Comic Sans MS', cursive, sans-serif; /* Playful font */
+    }
+
+    .hello-kitty-bg {
+      background-color: #fffaf0;
+      border: 2px solid #ff69b4;
+    }
+
+    .hello-kitty-btn {
+      background-color: #ff69b4; /* Kitty pink */
+      color: white;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .hello-kitty-btn:hover {
+      background-color: #ff85c0; /* Lighter pink on hover */
+    }
+
+    .rounded-xl {
+      border-radius: 25px;
+    }
+
+    .hello-kitty-input {
+      background-color: #fff0f5;
+      border: 2px solid #ffb6c1;
+    }
+
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #ff6f91;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Loader icon */
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 5px solid #ff69b4;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Rating system icons */
+    .rating-star {
+      cursor: pointer;
+      color: #ffd700;
+    }
+
+    .rating-star.selected {
+      color: #ff69b4; /* Hello Kitty pink */
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+  <!-- Notification Banner -->
+  <div id="notification" class="notification">Query submitted successfully!</div>
+
+  <!-- Main Container -->
+  <div class="hello-kitty-bg shadow-xl rounded-xl p-8 w-full max-w-2xl space-y-6 relative text-gray-700">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-4xl font-extrabold text-pink-500">🎀 WEBSITE_TITLE 🎀</h1>
+      <a href="mailto:contact@hellokitty.com" class="text-sm text-pink-500 hover:underline">Contact Support</a>
+    </div>
+
+    <!-- Form Section in a Card -->
+    <div class="p-6 rounded-xl shadow-md bg-pink-50 space-y-4">
+      <h2 class="text-2xl font-semibold text-pink-500">INPUT_TITLE</h2>
+      <form id="queryForm" class="space-y-6">
+        <div>
+          <label for="queryInput" class="block font-medium text-pink-600">INPUT_TITLE</label>
+          <input 
+            type="text" 
+            id="queryInput" 
+            name="queryInput" 
+            class="w-full mt-2 p-3 hello-kitty-input rounded-xl border-pink-300 focus:ring-2 focus:ring-pink-500 text-gray-600 placeholder-pink-300"
+            placeholder="INPUT_PLACEHOLDER" 
+            required
+          />
+        </div>
+
+        <div class="flex justify-center">
+          <button 
+            type="submit" 
+            class="hello-kitty-btn py-3 px-6 rounded-xl shadow-md">
+            Submit 🎀
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="flex justify-center items-center mt-6 hidden">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Result Section in a Card -->
+    <div id="result" class="mt-6 p-4 bg-white rounded-xl text-gray-600 hidden shadow-md">
+      <!-- Result text will go here -->
+    </div>
+
+    <!-- Query History Section in a Card -->
+    <div class="p-6 bg-pink-50 rounded-xl shadow-md space-y-4">
+      <h2 class="text-xl font-semibold text-pink-600">Previous Queries</h2>
+      <ul id="queryHistory" class="space-y-2">
+        <li class="p-2 bg-white rounded-xl text-gray-500 shadow">What is Hello Kitty's favorite food?</li>
+        <li class="p-2 bg-white rounded-xl text-gray-500 shadow">Where is the Hello Kitty theme park?</li>
+      </ul>
+    </div>
+
+    <!-- Feedback Section in a Card -->
+    <div class="p-6 bg-pink-50 rounded-xl shadow-md text-center">
+      <h2 class="text-xl font-semibold text-pink-600">Rate the Accuracy</h2>
+      <div class="flex justify-center space-x-1 mt-4">
+        <span class="rating-star text-3xl" data-rating="1">⭐</span>
+        <span class="rating-star text-3xl" data-rating="2">⭐</span>
+        <span class="rating-star text-3xl" data-rating="3">⭐</span>
+        <span class="rating-star text-3xl" data-rating="4">⭐</span>
+        <span class="rating-star text-3xl" data-rating="5">⭐</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 text-center text-sm text-pink-500">
+      <p>More about Hello Kitty? Visit <a href="https://www.sanrio.com" target="_blank" class="hover:underline">Sanrio</a></p>
+      <p>&copy; 2024 Hello Kitty, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+      const notification = document.getElementById("notification");
+
+      loader.classList.remove("hidden");
+      resultBox.textContent = "";
+      resultBox.classList.add("hidden");
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          notification.textContent = "Error submitting query!";
+          notification.classList.add("error");
+          notification.style.display = "block";
+          console.error("Error:", error);
+        });
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-star").forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
+      });
+    });
+  </script>
+</body>
+</html>

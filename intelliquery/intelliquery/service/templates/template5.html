@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBSITE_TITLE</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+      text-align: left;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #2c3e50;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .contact-link {
+      font-size: 14px;
+      color: #2980b9;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 16px;
+      color: #7f8c8d;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ecf0f1;
+      border-radius: 4px;
+      font-size: 15px;
+      color: #2c3e50;
+    }
+
+    #loader {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 4px solid #3498db;
+      animation: spin 1s linear infinite;
+      display: none;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #7f8c8d;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+
+    .footer a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>WEBSITE_TITLE</h1>
+      <a href="mailto:lukamindjek@gmail.com" class="contact-link">Contact Support</a>
+    </div>
+    
+    <form id="queryForm">
+      <label for="queryInput">INPUT_TITLE</label>
+      <input
+        type="text"
+        id="queryInput"
+        name="queryInput"
+        placeholder="INPUT_PLACEHOLDER"
+        required
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="loader"></div>
+
+    <div id="result" class="result"></div>
+
+    <div class="footer">
+      <p>Need more info? Visit <a href="http://lukamindek.com" target="_blank">lukamindek.com</a></p>
+      <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+
+      loader.style.display = "block";
+      resultBox.textContent = "";
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.style.display = "none";
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.style.display = "none";
+          resultBox.textContent = "Error fetching response";
+          console.error("Error:", error);
+        });
+    });
+  </script>
+</body>
+</html>

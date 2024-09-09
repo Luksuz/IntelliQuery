@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Custom RAG App</title>
+  <title>WEBSITE_TITLE</title>
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -129,14 +129,14 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to Your RAG App</h1>
+    <h1>WEBSITE_TITLE</h1>
     <form id="queryForm">
-      <label for="queryInput">Ask a question:</label>
+      <label for="queryInput">INPUT_TITLE</label>
       <input
         type="text"
         id="queryInput"
         name="queryInput"
-        placeholder="What do you want to know?"
+        placeholder="INPUT_PLACEHOLDER"
         required
       />
       <button type="submit">Submit</button>
@@ -170,7 +170,7 @@
 
       const query = document.getElementById("queryInput").value;
 
-      fetch("/.netlify/functions/query_rag", {
+      fetch("/.netlify/functions/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Steampunk color palette and styles */
+    body {
+      background-color: #3b3029; /* Dark brown background */
+      color: #e0ded0;
+      font-family: 'Libre Baskerville', serif; /* Victorian style font */
+    }
+
+    h1, h2, label {
+      font-family: 'Cinzel', serif; /* Classic serif font for headers */
+      letter-spacing: 1px;
+    }
+
+    /* Main container with metallic textures */
+    .steampunk-bg {
+      background: #4b3f35;
+      border: 4px solid #b87333; /* Copper border */
+      box-shadow: 0 0 20px #654321;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .steampunk-btn {
+      background-color: #8b4513; /* Bronze button */
+      color: #fff;
+      padding: 12px 24px;
+      border: 3px solid #654321;
+      transition: 0.3s ease-in-out;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #8b4513, 0 0 20px #654321;
+    }
+
+    .steampunk-btn:hover {
+      background-color: #a0522d;
+      box-shadow: 0 0 15px #a0522d, 0 0 30px #8b4513;
+    }
+
+    /* Inputs styled to resemble brass */
+    .steampunk-input {
+      background-color: #8c7766;
+      border: 2px solid #654321;
+      color: #fffaf0;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .steampunk-input:focus {
+      outline: none;
+      border-color: #c19a6b;
+      box-shadow: 0 0 10px #c19a6b;
+    }
+
+    /* Gears-style loader */
+    .loader {
+      border: 6px solid #4b3f35;
+      border-top: 6px solid #b87333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Gear rating stars */
+    .rating-star {
+      cursor: pointer;
+      color: #ffd700;
+      text-shadow: 0 0 5px #8b4513;
+    }
+
+    .rating-star.selected {
+      color: #b87333; /* Copper color for selected stars */
+      text-shadow: 0 0 10px #b87333;
+    }
+
+    /* Notification */
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #b87333;
+      color: #fffaf0;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 2px solid #654321;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+  <!-- Notification Banner -->
+  <div id="notification" class="notification">Query submitted successfully!</div>
+
+  <!-- Main Container -->
+  <div class="steampunk-bg w-full max-w-3xl space-y-8 relative">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-bold text-yellow-500">WEBSITE_TITLE</h1>
+      <a href="mailto:contact@steampunk.com" class="text-sm text-yellow-500 hover:underline">Contact Support</a>
+    </div>
+
+    <!-- Form Section -->
+    <div>
+      <h2 class="text-2xl font-semibold text-yellow-300">INPUT_TITLE</h2>
+      <form id="queryForm" class="space-y-4">
+        <div>
+          <label for="queryInput" class="block text-yellow-500">INPUT_TITLE</label>
+          <input 
+            type="text" 
+            id="queryInput" 
+            name="queryInput" 
+            class="w-full mt-2 p-3 steampunk-input rounded-lg"
+            placeholder="INPUT_PLACEHOLDER" 
+            required
+          />
+        </div>
+
+        <div class="flex justify-center">
+          <button 
+            type="submit" 
+            class="steampunk-btn rounded-lg">
+            Submit Query
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="flex justify-center items-center mt-6 hidden">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result" class="mt-6 p-4 bg-gray-800 text-yellow-300 rounded-lg hidden shadow-lg">
+      <!-- Result text will go here -->
+    </div>
+
+    <!-- Query History Section -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-semibold text-yellow-400">Previous Queries</h2>
+      <ul id="queryHistory" class="space-y-2">
+        <li class="p-3 bg-gray-700 rounded-lg text-yellow-300">How does a steam engine work?</li>
+        <li class="p-3 bg-gray-700 rounded-lg text-yellow-300">What is the history of gears in industrial machines?</li>
+      </ul>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="text-center">
+      <h2 class="text-xl font-semibold text-yellow-300">Rate the Accuracy</h2>
+      <div class="flex justify-center space-x-1 mt-4">
+        <span class="rating-star text-3xl" data-rating="1">⚙</span>
+        <span class="rating-star text-3xl" data-rating="2">⚙</span>
+        <span class="rating-star text-3xl" data-rating="3">⚙</span>
+        <span class="rating-star text-3xl" data-rating="4">⚙</span>
+        <span class="rating-star text-3xl" data-rating="5">⚙</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 text-center text-sm text-yellow-500">
+      <p>Explore more at <a href="https://www.steampunk.com" target="_blank" class="hover:underline">steampunk.com</a></p>
+      <p>&copy; 2024 Steampunk RAG App, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+      const notification = document.getElementById("notification");
+
+      loader.classList.remove("hidden");
+      resultBox.textContent = "";
+      resultBox.classList.add("hidden");
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          notification.textContent = "Error submitting query!";
+          notification.classList.add("error");
+          notification.style.display = "block";
+          console.error("Error:", error);
+        });
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-star").forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
+      });
+    });
+  </script>
+</body>
+</html>

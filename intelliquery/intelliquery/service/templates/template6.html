@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-semibold text-blue-600">WEBSITE_TITLE</h1>
+      <a href="mailto:lukamindjek@gmail.com" class="text-sm text-blue-500 hover:underline">Contact Support</a>
+    </div>
+
+    <!-- Form Section -->
+    <form id="queryForm" class="space-y-4">
+      <div>
+        <label for="queryInput" class="block text-gray-700 font-medium">INPUT_TITLE</label>
+        <input 
+          type="text" 
+          id="queryInput" 
+          name="queryInput" 
+          class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="INPUT_PLACEHOLDER" 
+          required 
+        />
+      </div>
+
+      <button 
+        type="submit" 
+        class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition">
+        Submit
+      </button>
+    </form>
+
+    <!-- Loader -->
+    <div id="loader" class="flex justify-center items-center mt-6 hidden">
+      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result" class="mt-6 p-4 bg-gray-100 rounded-lg text-gray-800"></div>
+
+    <!-- Footer -->
+    <div class="mt-8 border-t pt-4 text-center text-sm text-gray-500">
+      <p>Need more info? Visit <a href="http://lukamindek.com" target="_blank" class="text-blue-500 hover:underline">lukamindek.com</a></p>
+      <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+
+      loader.classList.remove("hidden");
+      resultBox.textContent = "";
+
+      const query = document.getElementById("queryInput").value;
+
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          console.error("Error:", error);
+        });
+    });
+  </script>
+</body>
+</html>

@@ -26,7 +26,3 @@ class MetadataGenerator():
                                     {job_description}
                                     """)
         return result
-
-metadataGenerator = MetadataGenerator()
-metadata = metadataGenerator.generate_metadata("I need a neurology data rag")
-print(metadata.website_title)

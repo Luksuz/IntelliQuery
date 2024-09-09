@@ -2,19 +2,28 @@
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Website
+from .models import Webapp, Document
 
 
-class WebsiteSerializer(serializers.ModelSerializer):
+class WebappSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Website
-        fields = ['id', 'url', 'name']
+        model = Webapp
+        fields = ['id', 'url', 'description', 'timestamp' ]
 
     def create(self, validated_data):
         request = self.context.get('request')
         user = request.user
-        website = Website.objects.create(user=user, **validated_data)
+        website = Webapp.objects.create(user=user, **validated_data)
         return website
+    
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document  # Use the Document model
+        fields = ['id', 'document', 'uploaded_at']  # Include necessary fields
+
+    def create(self, validated_data):
+        return Document.objects.create(**validated_data)
+
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
@@ -41,7 +50,6 @@ class RAGRequestSerializer(serializers.Serializer):
     )
 
     def validate_document(self, value):
-        # Validate the uploaded document, e.g., check file size or type
-        if value.size > 2 * 1024 * 1024:  # limit file size to 2 MB
+        if value.size > 2 * 1024 * 1024:
             raise serializers.ValidationError("File too large. Maximum size allowed is 2 MB.")
         return value

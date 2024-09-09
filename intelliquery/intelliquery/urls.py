@@ -22,7 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import RegisterView, WebsiteViewSet, LogoutView, GenerateRAGView
+from .views import RegisterView, WebappViewSet, LogoutView, GenerateRAGView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -30,7 +30,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 router = DefaultRouter()
-router.register(r'websites', WebsiteViewSet, basename='website')
+router.register(r'websites', WebappViewSet, basename='website')
 
 schema_view = get_schema_view(
     openapi.Info(

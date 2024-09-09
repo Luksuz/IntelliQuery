@@ -1,0 +1,17 @@
+[build]
+  publish = "dist"   # Directory where your site’s built files are stored
+  functions = "netlify/functions" # Directory for your serverless functions
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+
+[context.production.environment]
+  OPENAI_API_KEY="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"
+  PINECONE_API_KEY="d7713071-9c81-4409-a298-66026ed152d9"
+  PINECONE_INDEX="neural"
+  NAMESPACE="<NAMESPACE>"
