@@ -20,7 +20,7 @@ function App() {
     try {
       const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTg2NzE3LCJpYXQiOjE3MjU5NTM0MTcsImp0aSI6IjhjM2NhN2I2ZTBmOTQ3Y2FhMGNjNGEzMzVhYmMwM2NjIiwidXNlcl9pZCI6Nn0._mqQOrVVbpnc-QC-ElFqY6zvEtfq5QbrWmXUY3FLbtc"//e.getItem("authToken");  // Replace with your actual token retrieval method
 
-      const response = await fetch("http://localhost:8000/generate_rag/", {
+      const response = await fetch("https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery", {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,  // Add Authorization header with Bearer token
