@@ -18,7 +18,7 @@ function App() {
     formData.append('documents', file);
 
     try {
-      const token = "your-token-here";  // Replace with your actual token
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTkxODY1LCJpYXQiOjE3MjU5NTg1NjUsImp0aSI6IjE1ZjhjMDRkMzdlOTRmYzRhOGNjNDQ4MTkyOGJmNTUzIiwidXNlcl9pZCI6Nn0._r8i8qoR1YNglW1poSUSfzeoVoslrKZUzTK0MsviXUM";  // Replace with your actual token
 
       const response = await fetch("https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery", {
         method: 'POST',
