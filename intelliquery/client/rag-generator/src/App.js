@@ -18,19 +18,19 @@ function App() {
     formData.append('documents', file);
 
     try {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTg2NzE3LCJpYXQiOjE3MjU5NTM0MTcsImp0aSI6IjhjM2NhN2I2ZTBmOTQ3Y2FhMGNjNGEzMzVhYmMwM2NjIiwidXNlcl9pZCI6Nn0._mqQOrVVbpnc-QC-ElFqY6zvEtfq5QbrWmXUY3FLbtc"//e.getItem("authToken");  // Replace with your actual token retrieval method
+      const token = "your-token-here";  // Replace with your actual token
 
       const response = await fetch("https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery", {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,  // Add Authorization header with Bearer token
+          'Authorization': `Bearer ${token}`,
         },
-        body: formData,  // Use formData to handle file uploads
+        body: formData,
       });
 
       if (response.ok) {
         const data = await response.json();
-        setUrl(data.url);  // Assuming the response includes a URL for the generated app
+        setUrl(data.url);
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData);
@@ -51,12 +51,6 @@ function App() {
     ['template2', 'Dark green'],
     ['template3', 'Neutral'],
     ['template4', 'Light red'],
-    // ['template5', "Baby blue"],
-    // ['template7', 'Blue with rating'],
-    // ['template8', 'Yellow-gray with rating'],
-    // ['template11', 'Hello-kitty'],
-    // ['template12', "Cyberpunk"],
-    // ['template13', "Steampunk"],
   ];
 
   const templateImages = {
@@ -72,24 +66,15 @@ function App() {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-3xl font-bold">IntelliQuery</h1>
           <div>
-            <a
-              href="mailto:lukamindjek@gmail.com"
-              className="mr-4 hover:underline"
-            >
-              Contact Me
-            </a>
-            <a
-              href="https://lukamindek.com"
-              className="hover:underline"
-            >
-              lukamindek.com
-            </a>
+            <a href="mailto:lukamindjek@gmail.com" className="mr-4 hover:underline">Contact Me</a>
+            <a href="https://lukamindek.com" className="hover:underline">lukamindek.com</a>
           </div>
         </div>
       </header>
 
-      <div className="flex-grow overflow-y-auto">
-        <div className="relative bg-white p-8 rounded-lg shadow-xl max-w-md w-full mt-8 mx-auto">
+      <div className="flex-grow overflow-y-auto shadow-lg flex gap-4 max-w-7xl mx-auto mt-8">
+        {/* Form Section */}
+        <div className="relative bg-white p-8 rounded-lg shadow-xl w-1/2">
           <h1 className="text-2xl font-bold mb-6 text-center">RAG App Generator</h1>
 
           <form onSubmit={handleSubmit}>
@@ -119,9 +104,7 @@ function App() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Select Template
-              </label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">Select Template</label>
               <div className="grid grid-cols-2 gap-4">
                 {templates.map(([template, displayName]) => (
                   <div
@@ -160,7 +143,6 @@ function App() {
             </div>
           </form>
 
-          {/* Suggestion Box */}
           <div className="mt-6">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="suggestion">
               Have any suggestions?
@@ -174,16 +156,27 @@ function App() {
               onChange={(e) => setSuggestion(e.target.value)}
             />
           </div>
-
         </div>
 
-        {url && (
-          <div className="my-10 shadow-lg mx-auto w-full max-w-md bg-blue-300 p-3 rounded-md text-center">
-            <p>Your generated app URL: <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">{url}</a></p>
-          </div>
-        )}
-
+        {/* Tutorial Section */}
+        <div className="relative bg-white p-8 rounded-lg shadow-xl w-1/2">
+          <h2 className="text-xl font-bold mb-4">How to Use This App:</h2>
+          <ul className="list-disc pl-6 text-gray-700">
+            <li>Fill in the description for the app you'd like to generate.</li>
+            <li>Upload your documents that will be used in the app generation process.</li>
+            <li>Select a template from the available options.</li>
+            <li>Click "Generate App" to start the process.</li>
+            <li>Your generated app URL will be displayed once it's ready. (This takes about 40s so be patient :)</li>
+            <li>Feel free to share any suggestions or feedback in the provided field.</li>
+          </ul>
+        </div>
       </div>
+
+      {url && (
+        <div className="my-10 shadow-lg mx-auto w-full max-w-md bg-blue-300 p-3 rounded-md text-center">
+          <p>Your generated app URL: <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">{url}</a></p>
+        </div>
+      )}
 
       <footer className="bg-blue-600 text-white p-4 w-full text-center">
         <p>
