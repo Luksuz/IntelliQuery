@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+//import "./index.css"
 
 function App() {
   const [description, setDescription] = useState('');
@@ -6,11 +7,10 @@ function App() {
   const [selectedTemplate, setSelectedTemplate] = useState('template1');
   const [url, setUrl] = useState("");
   const [generating, setGenerating] = useState(false);
-  const [suggestion, setSuggestion] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setGenerating(true);
+    setGenerating(true);  // Show spinner
 
     const formData = new FormData();
     formData.append('description', description);
@@ -18,7 +18,7 @@ function App() {
     formData.append('documents', file);
 
     try {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTkxODY1LCJpYXQiOjE3MjU5NTg1NjUsImp0aSI6IjE1ZjhjMDRkMzdlOTRmYzRhOGNjNDQ4MTkyOGJmNTUzIiwidXNlcl9pZCI6Nn0._r8i8qoR1YNglW1poSUSfzeoVoslrKZUzTK0MsviXUM";  // Replace with your actual token
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTkxODY1LCJpYXQiOjE3MjU5NTg1NjUsImp0aSI6IjE1ZjhjMDRkMzdlOTRmYzRhOGNjNDQ4MTkyOGJmNTUzIiwidXNlcl9pZCI6Nn0._r8i8qoR1YNglW1poSUSfzeoVoslrKZUzTK0MsviXUM"; // Use the real token
 
       const response = await fetch("https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery", {
         method: 'POST',
@@ -30,7 +30,7 @@ function App() {
 
       if (response.ok) {
         const data = await response.json();
-        setUrl(data.url);
+        setUrl(data.url);  // Set the generated URL
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData);
@@ -38,7 +38,7 @@ function App() {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setGenerating(false);
+      setGenerating(false);  // Hide spinner
     }
   };
 
@@ -72,7 +72,7 @@ function App() {
         </div>
       </header>
 
-      <div className="flex-grow overflow-y-auto shadow-lg flex gap-4 max-w-7xl mx-auto mt-8">
+      <div className="flex-grow overflow-y-auto flex gap-4 max-w-7xl mx-auto mt-8">
         {/* Form Section */}
         <div className="relative bg-white p-8 rounded-lg shadow-xl w-1/2">
           <h1 className="text-2xl font-bold mb-6 text-center">RAG App Generator</h1>
@@ -133,29 +133,22 @@ function App() {
             </div>
 
             <div className="flex items-center justify-between">
+              {/* Button with Spinner */}
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-indigo-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
                 disabled={generating}
               >
-                {generating ? 'Generating...' : 'Generate App'}
+                {generating && (
+                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 11-8 8 8 8 0 01-8-8z"></path>
+                  </svg>
+                )}
+                {generating ? 'Processing...' : 'Generate App'}
               </button>
             </div>
           </form>
-
-          <div className="mt-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="suggestion">
-              Have any suggestions?
-            </label>
-            <textarea
-              id="suggestion"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              rows="3"
-              placeholder="Share your feedback..."
-              value={suggestion}
-              onChange={(e) => setSuggestion(e.target.value)}
-            />
-          </div>
         </div>
 
         {/* Tutorial Section */}
@@ -166,7 +159,7 @@ function App() {
             <li>Upload your documents that will be used in the app generation process.</li>
             <li>Select a template from the available options.</li>
             <li>Click "Generate App" to start the process.</li>
-            <li>Your generated app URL will be displayed once it's ready. (This takes about 40s so be patient :)</li>
+            <li>Your generated app URL will be displayed once it's ready.</li>
             <li>Feel free to share any suggestions or feedback in the provided field.</li>
           </ul>
         </div>
@@ -179,18 +172,13 @@ function App() {
       )}
 
       <footer className="bg-blue-600 text-white p-4 w-full text-center">
-        <p>
-          Made by: <a href="https://www.linkedin.com/in/luka-min%C4%91ek-a46012262/" className="underline">Luka Minđek</a>
-        </p>
-        <p>
-          Want a custom RAG app? <a href="mailto:lukamindjek@gmail.com" className="underline">Contact me</a> or call me at <a href="tel:0957674099" className="underline">095 767 4099</a>
-        </p>
-        <p>
-          Check out my work: <a href="https://lukamindek.com" className="underline">lukamindek.com</a> | <a href="https://github.com/luksuz" className="underline">GitHub</a> | <a href="https://www.linkedin.com/in/luka-min%C4%91ek-a46012262/" className="underline">LinkedIn</a>
-        </p>
+        <p>Made by: <a href="https://www.linkedin.com/in/luka-min%C4%91ek-a46012262/" className="underline">Luka Minđek</a></p>
+        <p>Want a custom RAG app? <a href="mailto:lukamindjek@gmail.com" className="underline">Contact me</a> or call me at <a href="tel:0957674099" className="underline">095 767 4099</a></p>
+        <p>Check out my work: <a href="https://lukamindek.com" className="underline">lukamindek.com</a> | <a href="https://github.com/luksuz" className="underline">GitHub</a> | <a href="https://www.linkedin.com/in/luka-min%C4%91ek-a46012262/" className="underline">LinkedIn</a></p>
       </footer>
     </div>
   );
 }
+
 
 export default App;
