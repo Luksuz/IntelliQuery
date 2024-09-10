@@ -18,7 +18,7 @@ function App() {
     formData.append('documents', file);
 
     try {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTA0NTMyLCJpYXQiOjE3MjU4NzEyMzIsImp0aSI6IjFhZjk0NTFiNDk4NDRlZGQ5YWY0NTNkYmI1NTQ4ZDNjIiwidXNlcl9pZCI6NX0.MQ3WEGT3kOrU3sn8-dVgug81LMU0Z9XZF3CeYqSpKmY"//e.getItem("authToken");  // Replace with your actual token retrieval method
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTg2NzE3LCJpYXQiOjE3MjU5NTM0MTcsImp0aSI6IjhjM2NhN2I2ZTBmOTQ3Y2FhMGNjNGEzMzVhYmMwM2NjIiwidXNlcl9pZCI6Nn0._mqQOrVVbpnc-QC-ElFqY6zvEtfq5QbrWmXUY3FLbtc"//e.getItem("authToken");  // Replace with your actual token retrieval method
 
       const response = await fetch("http://localhost:8000/generate_rag/", {
         method: 'POST',

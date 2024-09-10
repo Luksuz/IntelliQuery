@@ -18,8 +18,6 @@ from drf_yasg import openapi
 from .models import Webapp, Document
 
 
-
-
 class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]  # Allow anyone to register (no authentication required)
     queryset = User.objects.all()
@@ -41,7 +39,6 @@ class WebappViewSet(viewsets.ModelViewSet):
         # Return the queryset filtered by the authenticated user
         return Webapp.objects.filter(user=self.request.user)
     
-
 
 class LogoutView(APIView):
 
