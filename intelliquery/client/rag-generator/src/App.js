@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { FiFile } from 'react-icons/fi'; // Import file icon
-
+import React, { useState, useEffect } from "react";
+import {
+  FiFile,
+  FiEdit,
+  FiUpload,
+  FiLayers,
+  FiPlayCircle,
+  FiClock,
+  FiCheckCircle,
+} from "react-icons/fi"; // Import icons
 
 function TypewriterEffect({ messages }) {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState("");
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -23,7 +30,9 @@ function TypewriterEffect({ messages }) {
         } else {
           // Move to the next message
           setIsDeleting(false);
-          setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+          setCurrentMessageIndex(
+            (prevIndex) => (prevIndex + 1) % messages.length
+          );
           setCharIndex(0);
           timeoutId = setTimeout(handleTyping, 50);
         }
@@ -55,46 +64,48 @@ function TypewriterEffect({ messages }) {
   );
 }
 
-
-
 function App() {
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
-  const [selectedTemplate, setSelectedTemplate] = useState('template1');
-  const [url, setUrl] = useState('');
-  const [generating, setGenerating] = useState(true);
+  const [selectedTemplate, setSelectedTemplate] = useState("template1");
+  const [url, setUrl] = useState("");
+  const [generating, setGenerating] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setGenerating(true); // Show typewriter effect
 
     const formData = new FormData();
-    formData.append('description', description);
-    formData.append('template', selectedTemplate);
+    formData.append("description", description);
+    formData.append("template", selectedTemplate);
     for (let i = 0; i < files.length; i++) {
-      formData.append('documents', files[i]);
+      formData.append("documents", files[i]);
     }
 
     try {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTkxODY1LCJpYXQiOjE3MjU5NTg1NjUsImp0aSI6IjE1ZjhjMDRkMzdlOTRmYzRhOGNjNDQ4MTkyOGJmNTUzIiwidXNlcl9pZCI6Nn0._r8i8qoR1YNglW1poSUSfzeoVoslrKZUzTK0MsviXUM'; // Use the real token
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTkxODY1LCJpYXQiOjE3MjU5NTg1NjUsImp0aSI6IjE1ZjhjMDRkMzdlOTRmYzRhOGNjNDQ4MTkyOGJmNTUzIiwidXNlcl9pZCI6Nn0._r8i8qoR1YNglW1poSUSfzeoVoslrKZUzTK0MsviXUM"; // Use the real token
 
-      const response = await fetch('https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        "https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         setUrl(data.url);
       } else {
         const errorData = await response.json();
-        console.error('Error:', errorData);
+        console.error("Error:", errorData);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     } finally {
       setGenerating(false);
     }
@@ -109,24 +120,51 @@ function App() {
   };
 
   const templates = [
-    ['template1', 'Standard'],
-    ['template2', 'Dark Green'],
-    ['template3', 'Neutral'],
-    ['template4', 'Light Red'],
+    ["template1", "Standard"],
+    ["template2", "Dark Green"],
+    ["template3", "Neutral"],
+    ["template4", "Light Red"],
   ];
 
   const templateImages = {
-    template1: 'template1.png',
-    template2: 'template2.png',
-    template3: 'template3.png',
-    template4: 'template4.png',
+    template1: "template1.png",
+    template2: "template2.png",
+    template3: "template3.png",
+    template4: "template4.png",
   };
 
   const typewriterMessages = [
-    'Creating your vectorstore...',
-    'Preprocessing documents...',
-    'Deploying the website...',
-    'Still waiting...',
+    "Creating your vectorstore...",
+    "Preprocessing documents...",
+    "Deploying the website...",
+    "Still waiting...",
+  ];
+
+  const steps = [
+    {
+      icon: <FiEdit className="w-6 h-6" />,
+      text: "Fill in the description for the app you'd like to generate.",
+    },
+    {
+      icon: <FiUpload className="w-6 h-6" />,
+      text: "Upload your documents that will be used in the app generation process.",
+    },
+    {
+      icon: <FiLayers className="w-6 h-6" />,
+      text: "Select a template from the available options.",
+    },
+    {
+      icon: <FiPlayCircle className="w-6 h-6" />,
+      text: 'Click "Generate App" to start the process. 🚀',
+    },
+    {
+      icon: <FiClock className="w-6 h-6" />,
+      text: "⏳ Depending on the size of the uploaded document, the app will be ready in 40-50 seconds.",
+    },
+    {
+      icon: <FiCheckCircle className="w-6 h-6" />,
+      text: "✨ Your generated app URL will be displayed once it's ready. ✨",
+    },
   ];
 
   return (
@@ -134,7 +172,8 @@ function App() {
       {/* Navbar */}
       <header className="w-full bg-white bg-opacity-80 shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">IntelliQuery</h1>
+          <img src="./images/intelliquery.png"  alt="IntelliQuery Logo"
+              className="h-8 md:h-16"/>
           {/* Navigation Links */}
           <nav className="flex space-x-4">
             <a
@@ -169,7 +208,9 @@ function App() {
       <div className="flex-grow flex gap-8 max-w-7xl mx-auto mt-10 px-4 mb-5">
         {/* Form Section */}
         <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-1/2">
-          <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">RAG App Generator</h1>
+          <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+            RAG App Generator
+          </h1>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
@@ -188,15 +229,23 @@ function App() {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
+            {/* File Input Section */}
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="file">
+              <label
+                className="block text-gray-700 text-sm font-medium mb-2"
+                htmlFor="file"
+              >
                 Upload Documents
               </label>
               <div className="border border-dashed border-gray-300 rounded-md p-4">
                 <input
                   type="file"
                   id="file"
-                  className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                  accept=".pdf,.docx,.doc,.xlsx,.xls,.txt,.csv,.rtf,.odt,.ods,.pptx,.ppt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,text/csv,application/pdf"
+                  className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                 file:rounded-full file:border-0 file:text-sm file:font-medium
+                 file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100
+                 focus:outline-none"
                   multiple
                   onChange={handleFileChange}
                 />
@@ -209,7 +258,8 @@ function App() {
                         className="flex items-center justify-between bg-gray-50 p-2 rounded-md"
                       >
                         <div className="flex items-center">
-                          <FiFile className="text-purple-600 mr-2" /> {/* File icon */}
+                          <FiFile className="text-purple-600 mr-2" />{" "}
+                          {/* File icon */}
                           <span className="text-gray-700">{file.name}</span>
                         </div>
                         <span className="text-sm text-gray-500">
@@ -232,17 +282,21 @@ function App() {
                     key={template}
                     className={`relative cursor-pointer p-4 border rounded-md transition duration-300 ease-in-out hover:shadow-md ${
                       selectedTemplate === template
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-300 bg-white'
+                        ? "border-purple-500 bg-purple-50"
+                        : "border-gray-300 bg-white"
                     }`}
                     onClick={() => handleTemplateSelection(template)}
                     onMouseEnter={() => {
-                      const imgElement = document.getElementById(`image-popup-${template}`);
-                      if (imgElement) imgElement.style.display = 'block';
+                      const imgElement = document.getElementById(
+                        `image-popup-${template}`
+                      );
+                      if (imgElement) imgElement.style.display = "block";
                     }}
                     onMouseLeave={() => {
-                      const imgElement = document.getElementById(`image-popup-${template}`);
-                      if (imgElement) imgElement.style.display = 'none';
+                      const imgElement = document.getElementById(
+                        `image-popup-${template}`
+                      );
+                      if (imgElement) imgElement.style.display = "none";
                     }}
                   >
                     <span className="text-gray-700">{displayName}</span>
@@ -274,22 +328,17 @@ function App() {
         </div>
 
         {/* Tutorial Section */}
-        <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-1/2">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">How to Use This App:</h2>
-          <ul className="list-disc pl-6 text-lg text-gray-700 space-y-2">
-            {[
-              "Fill in the description for the app you'd like to generate.",
-              'Upload your documents that will be used in the app generation process.',
-              'Select a template from the available options.',
-              'Click "Generate App" to start the process.',
-              'Depending on the size of the uploaded document, the app will be ready in 40-50 seconds.',
-              '✨Your generated app URL will be displayed once it\'s ready.✨',
-            ].map((text, index) => (
-              <li
-                key={index}
-                className="hover:text-purple-600 transition duration-200 ease-in-out"
-              >
-                {text}
+        <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full md:w-1/2 ">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+            How to Use This App:
+          </h2>
+          <ul className="list-none text-gray-700 space-y-4">
+            {steps.map((step, index) => (
+              <li key={index} className="flex items-start leading-loose">
+                <div className="flex-shrink-0 text-purple-600 mt-1">
+                  {step.icon}
+                </div>
+                <p className="ml-3 text-lg leading-loose">{step.text}</p>
               </li>
             ))}
           </ul>
@@ -300,7 +349,7 @@ function App() {
       {url && (
         <div className="my-10 mx-auto w-full max-w-md bg-purple-100 p-4 rounded-md text-center shadow-md">
           <p className="text-gray-800">
-            Your generated app URL:{' '}
+            Your generated app URL:{" "}
             <a
               href={url}
               target="_blank"
@@ -317,7 +366,7 @@ function App() {
       <footer className="bg-white bg-opacity-80 w-full py-4 mt-auto">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-700">
           <p>
-            Made by:{' '}
+            Made by:{" "}
             <a
               href="https://lukamindek.com"
               className="underline font-medium text-gray-800 hover:text-purple-600"
@@ -326,14 +375,14 @@ function App() {
             </a>
           </p>
           <p>
-            Want a custom RAG app?{' '}
+            Want a custom RAG app?{" "}
             <a
               href="mailto:lukamindjek@gmail.com"
               className="underline font-medium text-gray-800 hover:text-purple-600"
             >
               Contact me
-            </a>{' '}
-            or call me at{' '}
+            </a>{" "}
+            or call me at{" "}
             <a
               href="tel:+3850957674099"
               className="underline font-medium text-gray-800 hover:text-purple-600"
@@ -342,21 +391,21 @@ function App() {
             </a>
           </p>
           <p>
-            Check out my work:{' '}
+            Check out my work:{" "}
             <a
               href="https://lukamindek.com"
               className="underline font-medium text-gray-800 hover:text-purple-600"
             >
               lukamindek.com
-            </a>{' '}
-            |{' '}
+            </a>{" "}
+            |{" "}
             <a
               href="https://github.com/luksuz"
               className="underline font-medium text-gray-800 hover:text-purple-600"
             >
               GitHub
-            </a>{' '}
-            |{' '}
+            </a>{" "}
+            |{" "}
             <a
               href="https://www.linkedin.com/in/luka-mindjek-a46012262/"
               className="underline font-medium text-gray-800 hover:text-purple-600"
