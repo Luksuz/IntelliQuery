@@ -84,7 +84,7 @@ function App() {
 
     try {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1OTkxODY1LCJpYXQiOjE3MjU5NTg1NjUsImp0aSI6IjE1ZjhjMDRkMzdlOTRmYzRhOGNjNDQ4MTkyOGJmNTUzIiwidXNlcl9pZCI6Nn0._r8i8qoR1YNglW1poSUSfzeoVoslrKZUzTK0MsviXUM"; // Use the real token
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Use the real token
 
       const response = await fetch(
         "https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery",
