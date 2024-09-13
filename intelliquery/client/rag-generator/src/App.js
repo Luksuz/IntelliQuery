@@ -7,7 +7,9 @@ import {
   FiPlayCircle,
   FiClock,
   FiCheckCircle,
+  FiMenu,
 } from "react-icons/fi"; // Import icons
+import { AiOutlineClose } from "react-icons/ai"; // Close icon
 
 function TypewriterEffect({ messages }) {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -70,6 +72,7 @@ function App() {
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
   const [url, setUrl] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [navOpen, setNavOpen] = useState(false); // For mobile menu
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,8 +86,7 @@ function App() {
     }
 
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Use the real token
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Use the real token
 
       const response = await fetch(
         "https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery",
@@ -170,44 +172,87 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-400 via-blue-300 to-blue-200">
       {/* Navbar */}
-      <header className="w-full bg-white bg-opacity-80 shadow-md">
+      <header className="w-full bg-white bg-opacity-80 shadow-md fixed top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <img src="./images/intelliquery.png"  alt="IntelliQuery Logo"
-              className="h-8 md:h-16"/>
+          <a href="/">
+            <img
+              src="./images/intelliquery.png"
+              alt="IntelliQuery Logo"
+              className="h-8 md:h-10"
+            />
+          </a>
           {/* Navigation Links */}
-          <nav className="flex space-x-4">
+          <nav className="hidden md:flex space-x-4">
             <a
               href="/"
-              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-blue-400 text-white rounded-md shadow-md hover:from-purple-500 hover:to-blue-500 transition duration-300"
+              className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               Home
             </a>
             <a
               href="/my-rags"
-              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-blue-400 text-white rounded-md shadow-md hover:from-purple-500 hover:to-blue-500 transition duration-300"
+              className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               My RAGs
             </a>
             <a
               href="/login"
-              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-blue-400 text-white rounded-md shadow-md hover:from-purple-500 hover:to-blue-500 transition duration-300"
+              className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               Login
             </a>
             <a
               href="/register"
-              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-blue-400 text-white rounded-md shadow-md hover:from-purple-500 hover:to-blue-500 transition duration-300"
+              className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               Register
             </a>
           </nav>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden focus:outline-none"
+            onClick={() => setNavOpen(!navOpen)}
+          >
+            {navOpen ? <AiOutlineClose size={24} /> : <FiMenu size={24} />}
+          </button>
         </div>
+        {/* Mobile Menu */}
+        {navOpen && (
+          <nav className="md:hidden bg-white bg-opacity-90 shadow-md">
+            <div className="px-4 py-2 space-y-1">
+              <a
+                href="/"
+                className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
+              >
+                Home
+              </a>
+              <a
+                href="/my-rags"
+                className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
+              >
+                My RAGs
+              </a>
+              <a
+                href="/login"
+                className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
+              >
+                Login
+              </a>
+              <a
+                href="/register"
+                className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
+              >
+                Register
+              </a>
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Main Content */}
-      <div className="flex-grow flex gap-8 max-w-7xl mx-auto mt-10 px-4 mb-5">
+      <div className="flex-grow flex flex-col md:flex-row gap-8 max-w-7xl mx-auto mt-24 px-4 mb-5">
         {/* Form Section */}
-        <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-1/2">
+        <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full md:w-1/2">
           <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
             RAG App Generator
           </h1>
@@ -243,9 +288,9 @@ function App() {
                   id="file"
                   accept=".pdf,.docx,.doc,.xlsx,.xls,.txt,.csv,.rtf,.odt,.ods,.pptx,.ppt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,text/csv,application/pdf"
                   className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
-                 file:rounded-full file:border-0 file:text-sm file:font-medium
-                 file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100
-                 focus:outline-none"
+                   file:rounded-full file:border-0 file:text-sm file:font-medium
+                   file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100
+                   focus:outline-none"
                   multiple
                   onChange={handleFileChange}
                 />
@@ -276,7 +321,7 @@ function App() {
               <label className="block text-gray-700 text-sm font-medium mb-2">
                 Select Template
               </label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {templates.map(([template, displayName]) => (
                   <div
                     key={template}
@@ -328,7 +373,7 @@ function App() {
         </div>
 
         {/* Tutorial Section */}
-        <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full md:w-1/2 ">
+        <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full md:w-1/2">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             How to Use This App:
           </h2>
@@ -338,7 +383,7 @@ function App() {
                 <div className="flex-shrink-0 text-purple-600 mt-1">
                   {step.icon}
                 </div>
-                <p className="ml-3 text-lg leading-loose">{step.text}</p>
+                <p className="ml-3 text-base">{step.text}</p>
               </li>
             ))}
           </ul>
@@ -354,7 +399,7 @@ function App() {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-600 underline"
+              className="text-purple-600 underline break-all"
             >
               {url}
             </a>
@@ -364,7 +409,7 @@ function App() {
 
       {/* Footer */}
       <footer className="bg-white bg-opacity-80 w-full py-4 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 text-center text-gray-700">
+        <div className="max-w-7xl mx-auto px-4 text-center text-gray-700 text-sm">
           <p>
             Made by:{" "}
             <a
