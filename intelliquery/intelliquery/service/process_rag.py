@@ -4,7 +4,6 @@ from .VectorstoreService import VectorstoreService
 from .FileService import FileService
 from dotenv import load_dotenv
 import time
-import asyncio
 
 load_dotenv()
 

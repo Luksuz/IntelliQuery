@@ -3,82 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RAG App Interface</title>
+  <title>WEBSITE_TITLE</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Animated background gradient */
+    /* Neurology/Medicine color palette and styling */
     body {
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
+      background-color: #f5faff; /* Light blue background */
+      font-family: 'Roboto', sans-serif; /* Clean, professional font */
+      color: #2c3e50; /* Dark slate text */
     }
 
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+    .medical-bg {
+      background-color: #ffffff;
+      border: 2px solid #3498db;
+      background-image: url('https://www.transparenttextures.com/patterns/white-diamond.png'); /* Subtle texture */
     }
 
-    /* Styling for hidden elements */
-    .hidden-advanced {
-      display: none;
+    .medical-btn {
+      background-color: #3498db; /* Medical blue */
+      color: #ffffff;
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
 
-    /* Rating star styles */
-    .rating-star {
-      cursor: pointer;
-      color: #4a5568;
+    .medical-btn:hover {
+      background-color: #5dade2; /* Lighter blue on hover */
     }
 
-    .rating-star.selected {
-      color: #f59e0b;
+    .rounded-xl {
+      border-radius: 10px;
     }
 
-    /* Tooltip styles */
-    .tooltip {
-      position: relative;
-      display: inline-block;
+    .medical-input {
+      background-color: #ecf7ff;
+      border: 2px solid #3498db;
+      color: #2c3e50;
     }
 
-    .tooltip .tooltip-text {
-      visibility: hidden;
-      width: 140px;
-      background-color: #555;
-      color: #fff;
-      text-align: center;
-      padding: 5px 0;
-      border-radius: 6px;
-      position: absolute;
-      z-index: 1;
-      bottom: 100%;
-      left: 50%;
-      margin-left: -70px;
-      opacity: 0;
-      transition: opacity 0.3s;
+    /* Tutorial section styling */
+    .tutorial {
+      background-color: #ecf7ff;
+      border: 2px solid #3498db;
+      padding: 20px;
+      border-radius: 10px;
+      margin-left: 20px;
+      color: #2c3e50;
     }
 
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    /* Notification banner */
     .notification {
       display: none;
       position: fixed;
       top: 10px;
       right: 10px;
-      background-color: #34d399;
-      color: white;
+      background-color: #3498db;
+      color: #ffffff;
       padding: 10px 20px;
-      border-radius: 8px;
+      border-radius: 10px;
+      font-weight: bold;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
       animation: fadeIn 0.5s ease forwards;
     }
 
@@ -93,131 +76,113 @@
       }
     }
 
-    .notification.error {
-      background-color: #f87171;
+    /* Loader icon */
+    .loader {
+      border: 5px solid #e0e0e0;
+      border-radius: 50%;
+      border-top: 5px solid #3498db;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
     }
 
-    /* Search suggestion box */
-    #suggestions {
-      position: absolute;
-      background-color: #fff;
-      width: 100%;
-      border: 1px solid #ccc;
-      z-index: 10;
-      max-height: 150px;
-      overflow-y: auto;
-      display: none;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    #suggestions p {
-      padding: 10px;
+    /* Rating system icons */
+    .rating-brain {
       cursor: pointer;
+      color: #95a5a6;
     }
 
-    #suggestions p:hover {
-      background-color: #f3f4f6;
+    .rating-brain.selected {
+      color: #3498db; /* Medical blue */
     }
+
+    /* Importing Roboto font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
   </style>
 </head>
-<body class="text-gray-300 flex items-center justify-center min-h-screen">
+<body class="flex flex-col min-h-screen">
 
   <!-- Notification Banner -->
   <div id="notification" class="notification">Query submitted successfully!</div>
 
-  <!-- Main Container -->
-  <div class="bg-gray-900 shadow-xl rounded-lg p-8 w-full max-w-4xl space-y-6 relative">
-    <!-- Header Section -->
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-4xl font-extrabold text-yellow-400">RAG App</h1>
-      <a href="mailto:lukamindjek@gmail.com" class="text-sm text-yellow-300 hover:underline">Contact Support</a>
-    </div>
-
-    <!-- Form Section in a Card -->
-    <div class="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-      <h2 class="text-2xl font-semibold text-yellow-400">Ask Your Question</h2>
-      <form id="queryForm" class="space-y-6 relative">
-        <div>
-          <label for="queryInput" class="block text-gray-400 font-medium">Your Question:</label>
-          <input 
-            type="text" 
-            id="queryInput" 
-            name="queryInput" 
-            class="w-full mt-2 p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-gray-300 placeholder-gray-500"
-            placeholder="Ask something about the content..." 
-            required 
-            onkeyup="showSuggestions(this.value)"
-          />
-          <div id="suggestions" class="bg-white text-gray-900"></div>
+  <!-- Main Content Wrapper -->
+  <div class="flex-grow flex items-center justify-center">
+    <!-- Main Container -->
+    <div class="medical-bg shadow-xl rounded-xl p-8 w-full max-w-5xl space-y-6 flex">
+      <!-- Left Section: Form -->
+      <div class="w-2/3 pr-4">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-4xl font-extrabold text-blue-700">🧠 WEBSITE_TITLE 🧠</h1>
+          <a href="mailto:lukamindjek@gmail.com" target="_blank" class="text-sm text-blue-700 hover:underline">Contact Support</a>
         </div>
 
-        <!-- Advanced Search Options -->
-        <div id="advancedOptions" class="hidden-advanced space-y-4">
-          <div>
-            <label for="category" class="block text-gray-400 font-medium">Category:</label>
-            <select id="category" class="w-full mt-2 p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-300">
-              <option value="">Select Category</option>
-              <option value="tech">Tech</option>
-              <option value="science">Science</option>
-              <option value="history">History</option>
-            </select>
-          </div>
+        <!-- Form Section in a Card -->
+        <div class="p-6 rounded-xl shadow-md bg-white space-y-4">
+          <h2 class="text-2xl font-semibold text-blue-700">INPUT_TITLE</h2>
+          <form id="queryForm" class="space-y-6">
+            <div>
+              <label for="queryInput" class="block font-medium text-blue-600">INPUT_TITLE</label>
+              <input 
+                type="text" 
+                id="queryInput" 
+                name="queryInput" 
+                class="w-full mt-2 p-3 medical-input rounded-xl focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
+                placeholder="INPUT_PLACEHOLDER" 
+                required
+              />
+            </div>
 
-          <div>
-            <label for="dateRange" class="block text-gray-400 font-medium">Date Range:</label>
-            <input 
-              type="date" 
-              id="dateRange" 
-              class="w-full mt-2 p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-300"
-            />
-          </div>
+            <div class="flex justify-center">
+              <button 
+                type="submit" 
+                class="medical-btn py-3 px-6 rounded-xl shadow-md">
+                Submit 🩺
+              </button>
+            </div>
+          </form>
         </div>
 
-        <div class="flex justify-between items-center">
-          <button 
-            type="submit" 
-            class="w-1/2 bg-yellow-500 text-gray-900 font-semibold py-3 rounded-lg hover:bg-yellow-600 transition">
-            Submit
-          </button>
-          <div class="tooltip">
-            <button 
-              type="button" 
-              id="toggleAdvanced" 
-              class="text-sm text-yellow-400 hover:underline">
-              Toggle Advanced Search
-            </button>
-            <span class="tooltip-text">Show advanced filters like category and date range.</span>
-          </div>
+        <!-- Loader -->
+        <div id="loader" class="flex justify-center items-center mt-6 hidden">
+          <div class="loader"></div>
         </div>
-      </form>
-    </div>
 
-    <!-- Query History Section in a Card -->
-    <div class="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-      <h2 class="text-xl font-semibold text-gray-400">Previous Queries</h2>
-      <ul id="queryHistory" class="space-y-2">
-        <!-- Example history items -->
-        <li class="p-2 bg-gray-700 rounded-lg text-gray-400">How does quantum computing work?</li>
-        <li class="p-2 bg-gray-700 rounded-lg text-gray-400">What's the latest in AI research?</li>
-      </ul>
-    </div>
+        <!-- Result Section in a Card -->
+        <div id="result" class="mt-6 p-4 bg-white rounded-xl text-gray-700 hidden shadow-md">
+          <!-- Result text will go here -->
+          <p id="answerText"></p>
+        
+        </div>
+      </div>
 
-    <!-- Feedback Section in a Card -->
-    <div class="bg-gray-800 p-6 rounded-lg shadow-md space-y-4 text-center">
-      <h2 class="text-xl font-semibold text-gray-400">Rate the accuracy of this result</h2>
-      <div class="flex justify-center space-x-1">
-        <span class="rating-star text-3xl" data-rating="1">&#9733;</span>
-        <span class="rating-star text-3xl" data-rating="2">&#9733;</span>
-        <span class="rating-star text-3xl" data-rating="3">&#9733;</span>
-        <span class="rating-star text-3xl" data-rating="4">&#9733;</span>
-        <span class="rating-star text-3xl" data-rating="5">&#9733;</span>
+      <!-- Right Section: Tutorial -->
+      <div class="tutorial w-1/3">
+        <h2 class="text-2xl font-semibold text-blue-700 mb-4">💡 How to Use This App</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li><strong>Enter Your Query:</strong> Type your question or message in the input field provided.</li>
+          <li><strong>Submit:</strong> Click on the <em>Submit 🩺</em> button to send your query.</li>
+          <li><strong>Wait for Response:</strong> A loader will appear while we process your request.</li>
+          <li><strong>View Answer:</strong> Your answer will appear below once ready.</li>
+          <li><strong>Rate the Response:</strong> Use the brain icons to rate your experience.</li>
+        </ol>
+        <div class="mt-6">
+          <h3 class="text-xl font-semibold text-blue-700">Need Assistance?</h3>
+          <p class="mt-2">If you have any questions or need assistance, feel free to reach out by clicking on the "Contact Support" link above.</p>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Footer -->
-    <div class="mt-8 border-t border-gray-700 pt-4 text-center text-sm text-gray-500">
-      <p>Need more info? Visit <a href="http://lukamindek.com" target="_blank" class="text-yellow-400 hover:underline">lukamindek.com</a></p>
-      <p>&copy; 2024 Luka Minđek, all rights reserved</p>
-    </div>
+  <!-- Footer -->
+  <div class="mt-8 text-center text-sm text-blue-700">
+    <p>Need a better system? Email me at <a href="mailto:lukamindjek@gmail.com" target="_blank" class="underline">lukamindjek@gmail.com</a></p>
+    <p>&copy; 2024 Luka Minđek, all rights reserved</p>
   </div>
 
   <script>
@@ -227,10 +192,12 @@
 
       const loader = document.getElementById("loader");
       const resultBox = document.getElementById("result");
+      const answerText = document.getElementById("answerText");
       const notification = document.getElementById("notification");
 
       loader.classList.remove("hidden");
-      resultBox.textContent = "";
+      answerText.textContent = "";
+      resultBox.classList.add("hidden");
 
       const query = document.getElementById("queryInput").value;
 
@@ -244,56 +211,41 @@
         .then((response) => response.json())
         .then((data) => {
           loader.classList.add("hidden");
-          resultBox.textContent = data.answer || "No answer received";
+          answerText.textContent = data.answer || "No answer received";
+          resultBox.classList.remove("hidden");
+          // Reset rating icons
+          document.querySelectorAll(".rating-brain").forEach(s => s.classList.remove("selected"));
         })
         .catch((error) => {
           loader.classList.add("hidden");
-          resultBox.textContent = "Error fetching response";
+          answerText.textContent = "Error fetching response";
+          resultBox.classList.remove("hidden");
+
+          // Display the error notification
           notification.textContent = "Error submitting query!";
           notification.classList.add("error");
           notification.style.display = "block";
+
           console.error("Error:", error);
+
+          // Hide the notification after a few seconds
+          setTimeout(() => {
+            notification.style.display = "none";
+          }, 3000);
         });
     });
 
-    // Toggle advanced options
-    document.getElementById("toggleAdvanced").addEventListener("click", function () {
-      const advancedOptions = document.getElementById("advancedOptions");
-      advancedOptions.classList.toggle("hidden-advanced");
-    });
-
     // Rating system
-    document.querySelectorAll(".rating-star").forEach(star => {
-      star.addEventListener("click", function () {
+    document.querySelectorAll(".rating-brain").forEach(brain => {
+      brain.addEventListener("click", function () {
         const rating = this.getAttribute("data-rating");
-        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        document.querySelectorAll(".rating-brain").forEach(s => s.classList.remove("selected"));
         for (let i = 1; i <= rating; i++) {
-          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+          document.querySelector(`.rating-brain[data-rating="${i}"]`).classList.add("selected");
         }
         console.log(`Rating given: ${rating}`);
+        // You can add code here to send the rating to your server
       });
-    });
-
-    // Autocomplete suggestions (mock data)
-    function showSuggestions(query) {
-      const suggestionsBox = document.getElementById("suggestions");
-      const suggestions = ["What is AI?", "How does quantum computing work?", "Latest AI research", "Tech innovations 2024"];
-      
-      if (query.length === 0) {
-        suggestionsBox.style.display = "none";
-      } else {
-        const filteredSuggestions = suggestions.filter(s => s.toLowerCase().includes(query.toLowerCase()));
-        suggestionsBox.innerHTML = filteredSuggestions.map(s => `<p>${s}</p>`).join("");
-        suggestionsBox.style.display = "block";
-      }
-    }
-
-    // Handle suggestion click
-    document.getElementById("suggestions").addEventListener("click", function (e) {
-      if (e.target.tagName === "P") {
-        document.getElementById("queryInput").value = e.target.textContent;
-        this.style.display = "none";
-      }
     });
   </script>
 </body>

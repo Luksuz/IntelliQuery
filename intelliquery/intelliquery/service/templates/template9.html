@@ -6,48 +6,48 @@
   <title>WEBSITE_TITLE</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Legal-themed color palette and styling */
+    /* Data-centric color palette and styling */
     body {
-      background-color: #f4f4f4; /* Light gray background */
-      font-family: 'Merriweather', serif; /* Classic, professional font */
-      color: #2c3e50; /* Dark slate text */
+      background-color: #1e1e2f; /* Dark background */
+      font-family: 'Source Code Pro', monospace; /* Coding-style font */
+      color: #d0d0d0; /* Light gray text */
     }
 
-    .legal-bg {
-      background-color: #ffffff;
-      border: 2px solid #2c3e50;
-      background-image: url('https://www.transparenttextures.com/patterns/paper.png'); /* Subtle paper texture */
+    .data-bg {
+      background-color: #2a2a3b;
+      border: 2px solid #4b8bbe;
+      background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); /* Subtle grid pattern */
     }
 
-    .legal-btn {
-      background-color: #2c3e50; /* Dark slate blue */
+    .data-btn {
+      background-color: #4b8bbe; /* Data blue */
       color: #ffffff;
       font-weight: bold;
       transition: background-color 0.3s;
     }
 
-    .legal-btn:hover {
-      background-color: #34495e; /* Slightly lighter on hover */
+    .data-btn:hover {
+      background-color: #5d9bde; /* Lighter blue on hover */
     }
 
     .rounded-xl {
       border-radius: 8px;
     }
 
-    .legal-input {
-      background-color: #ecf0f1;
-      border: 2px solid #2c3e50;
-      color: #2c3e50;
+    .data-input {
+      background-color: #2e2e3e;
+      border: 2px solid #4b8bbe;
+      color: #d0d0d0;
     }
 
     /* Tutorial section styling */
     .tutorial {
-      background-color: #ecf0f1;
-      border: 2px solid #2c3e50;
+      background-color: #2a2a3b;
+      border: 2px solid #4b8bbe;
       padding: 20px;
       border-radius: 8px;
       margin-left: 20px;
-      color: #2c3e50;
+      color: #d0d0d0;
     }
 
     .notification {
@@ -55,12 +55,12 @@
       position: fixed;
       top: 10px;
       right: 10px;
-      background-color: #2c3e50;
+      background-color: #4b8bbe;
       color: #ffffff;
       padding: 10px 20px;
       border-radius: 8px;
       font-weight: bold;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
       z-index: 1000;
       animation: fadeIn 0.5s ease forwards;
     }
@@ -78,9 +78,9 @@
 
     /* Loader icon */
     .loader {
-      border: 5px solid #dcdcdc;
+      border: 5px solid #3a3a4a;
       border-radius: 50%;
-      border-top: 5px solid #2c3e50;
+      border-top: 5px solid #4b8bbe;
       width: 50px;
       height: 50px;
       animation: spin 1s linear infinite;
@@ -92,17 +92,17 @@
     }
 
     /* Rating system icons */
-    .rating-gavel {
+    .rating-data {
       cursor: pointer;
-      color: #95a5a6;
+      color: #666;
     }
 
-    .rating-gavel.selected {
-      color: #2c3e50; /* Dark slate */
+    .rating-data.selected {
+      color: #4b8bbe; /* Data blue */
     }
 
-    /* Importing Merriweather font from Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+    /* Importing Source Code Pro font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
   </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -113,26 +113,26 @@
   <!-- Main Content Wrapper -->
   <div class="flex-grow flex items-center justify-center">
     <!-- Main Container -->
-    <div class="legal-bg shadow-xl rounded-xl p-8 w-full max-w-5xl space-y-6 flex">
+    <div class="data-bg shadow-xl rounded-xl p-8 w-full max-w-5xl space-y-6 flex">
       <!-- Left Section: Form -->
       <div class="w-2/3 pr-4">
         <!-- Header Section -->
         <div class="flex items-center justify-between mb-6">
-          <h1 class="text-4xl font-extrabold text-gray-800">⚖️ WEBSITE_TITLE ⚖️</h1>
-          <a href="mailto:lukamindjek@gmail.com" target="_blank" class="text-sm text-gray-800 hover:underline">Contact Support</a>
+          <h1 class="text-4xl font-extrabold text-blue-400">📊 WEBSITE_TITLE 📊</h1>
+          <a href="mailto:lukamindjek@gmail.com" target="_blank" class="text-sm text-blue-400 hover:underline">Contact Support</a>
         </div>
 
         <!-- Form Section in a Card -->
-        <div class="p-6 rounded-xl shadow-md bg-white space-y-4">
-          <h2 class="text-2xl font-semibold text-gray-800">INPUT_TITLE</h2>
+        <div class="p-6 rounded-xl shadow-md bg-gray-800 space-y-4">
+          <h2 class="text-2xl font-semibold text-blue-400">INPUT_TITLE</h2>
           <form id="queryForm" class="space-y-6">
             <div>
-              <label for="queryInput" class="block font-medium text-gray-700">INPUT_TITLE</label>
+              <label for="queryInput" class="block font-medium text-blue-300">INPUT_TITLE</label>
               <input 
                 type="text" 
                 id="queryInput" 
                 name="queryInput" 
-                class="w-full mt-2 p-3 legal-input rounded-xl focus:ring-2 focus:ring-gray-500 placeholder-gray-500"
+                class="w-full mt-2 p-3 data-input rounded-xl focus:ring-2 focus:ring-blue-400 placeholder-gray-500"
                 placeholder="INPUT_PLACEHOLDER" 
                 required
               />
@@ -141,8 +141,8 @@
             <div class="flex justify-center">
               <button 
                 type="submit" 
-                class="legal-btn py-3 px-6 rounded-xl shadow-md">
-                Submit 📜
+                class="data-btn py-3 px-6 rounded-xl shadow-md">
+                Submit 📈
               </button>
             </div>
           </form>
@@ -154,24 +154,24 @@
         </div>
 
         <!-- Result Section in a Card -->
-        <div id="result" class="mt-6 p-4 bg-white rounded-xl text-gray-700 hidden shadow-md">
+        <div id="result" class="mt-6 p-4 bg-gray-700 rounded-xl text-gray-200 hidden shadow-md">
           <!-- Result text will go here -->
-          <p id="answerText"></p>          
+          <p id="answerText"></p>
         </div>
       </div>
 
       <!-- Right Section: Tutorial -->
       <div class="tutorial w-1/3">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">📖 How to Use This App</h2>
+        <h2 class="text-2xl font-semibold text-blue-400 mb-4">💡 How to Use This App</h2>
         <ol class="list-decimal list-inside space-y-2">
           <li><strong>Enter Your Query:</strong> Type your question or message in the input field provided.</li>
-          <li><strong>Submit:</strong> Click on the <em>Submit 📜</em> button to send your query.</li>
+          <li><strong>Submit:</strong> Click on the <em>Submit 📈</em> button to send your query.</li>
           <li><strong>Wait for Response:</strong> A loader will appear while we process your request.</li>
           <li><strong>View Answer:</strong> Your answer will appear below once ready.</li>
-          <li><strong>Rate the Response:</strong> Use the scales of justice to rate your experience.</li>
+          <li><strong>Rate the Response:</strong> Use the data icons to rate your experience.</li>
         </ol>
         <div class="mt-6">
-          <h3 class="text-xl font-semibold text-gray-800">Need Assistance?</h3>
+          <h3 class="text-xl font-semibold text-blue-400">Need Assistance?</h3>
           <p class="mt-2">If you have any questions or need assistance, feel free to reach out by clicking on the "Contact Support" link above.</p>
         </div>
       </div>
@@ -179,7 +179,7 @@
   </div>
 
   <!-- Footer -->
-  <div class="mt-8 text-center text-sm text-gray-800">
+  <div class="mt-8 text-center text-sm text-gray-500">
     <p>Need a better system? Email me at <a href="mailto:lukamindjek@gmail.com" target="_blank" class="underline">lukamindjek@gmail.com</a></p>
     <p>&copy; 2024 Luka Minđek, all rights reserved</p>
   </div>
@@ -213,7 +213,7 @@
           answerText.textContent = data.answer || "No answer received";
           resultBox.classList.remove("hidden");
           // Reset rating icons
-          document.querySelectorAll(".rating-gavel").forEach(s => s.classList.remove("selected"));
+          document.querySelectorAll(".rating-data").forEach(s => s.classList.remove("selected"));
         })
         .catch((error) => {
           loader.classList.add("hidden");
@@ -235,12 +235,12 @@
     });
 
     // Rating system
-    document.querySelectorAll(".rating-gavel").forEach(icon => {
+    document.querySelectorAll(".rating-data").forEach(icon => {
       icon.addEventListener("click", function () {
         const rating = this.getAttribute("data-rating");
-        document.querySelectorAll(".rating-gavel").forEach(s => s.classList.remove("selected"));
+        document.querySelectorAll(".rating-data").forEach(s => s.classList.remove("selected"));
         for (let i = 1; i <= rating; i++) {
-          document.querySelector(`.rating-gavel[data-rating="${i}"]`).classList.add("selected");
+          document.querySelector(`.rating-data[data-rating="${i}"]`).classList.add("selected");
         }
         console.log(`Rating given: ${rating}`);
         // You can add code here to send the rating to your server

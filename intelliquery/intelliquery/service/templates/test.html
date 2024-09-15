@@ -1,95 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Steampunk color palette and styling */
     body {
-      font-family: 'Times New Roman', serif;
-      background-color: #d2b48c;
-      color: #000000;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background-color: #2b2b2b; /* Dark background */
+      font-family: 'Times New Roman', serif; /* Victorian-style font */
     }
 
-    .container {
-      width: 400px;
-      padding: 30px;
-      background-color: #fff8dc;
-      border-radius: 0;
-      border: 2px solid #000000;
-      text-align: center;
+    .steampunk-bg {
+      background-color: #3c3c3c;
+      border: 2px solid #8c7b75;
+      background-image: url('https://i.imgur.com/Zl0WkqC.png'); /* Subtle gear pattern */
     }
 
-    h1 {
-      font-size: 24px;
-      color: #8b0000;
-      margin-bottom: 20px;
+    .steampunk-btn {
+      background-color: #8c7b75; /* Brass color */
+      color: #f0e6d2; /* Light parchment color */
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
 
-    label {
-      font-size: 16px;
-      color: #000000;
-      margin-bottom: 10px;
-      display: block;
-      text-align: left;
+    .steampunk-btn:hover {
+      background-color: #a6907b; /* Lighter brass on hover */
     }
 
-    input[type="text"] {
-      width: 100%;
-      padding: 15px;
-      border-radius: 0;
-      border: 1px solid #000000;
-      margin-bottom: 20px;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.3s ease;
+    .rounded-xl {
+      border-radius: 10px;
     }
 
-    input[type="text"]:focus {
-      border-color: #8b0000;
+    .steampunk-input {
+      background-color: #4a4a4a;
+      border: 2px solid #8c7b75;
+      color: #f0e6d2;
     }
 
-    button {
-      width: 100%;
-      padding: 15px;
-      border-radius: 0;
-      border: none;
-      background-color: #8b0000;
-      color: #ffffff;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #5a0000;
-    }
-
-    .result {
-      margin-top: 20px;
+    /* Tutorial section styling */
+    .tutorial {
+      background-color: #3c3c3c;
+      border: 2px solid #8c7b75;
       padding: 20px;
-      background-color: #ffe4b5;
-      border-radius: 0;
-      font-size: 14px;
-      text-align: left;
-      color: #5a0000;
+      border-radius: 10px;
+      margin-left: 20px;
+      color: #f0e6d2;
     }
 
-    #loader {
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #8c7b75;
+      color: #f0e6d2;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Loader icon */
+    .loader {
+      border: 5px solid #555;
+      border-radius: 50%;
+      border-top: 5px solid #8c7b75;
       width: 50px;
       height: 50px;
-      border: 6px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 6px solid #8b0000;
       animation: spin 1s linear infinite;
-      display: none;
-      margin: 20px auto;
     }
 
     @keyframes spin {
@@ -97,95 +90,151 @@
       100% { transform: rotate(360deg); }
     }
 
-    .contact-info {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid #000000;
-      font-size: 14px;
-      color: #000000;
-      text-align: left;
+    /* Rating system icons */
+    .rating-star {
+      cursor: pointer;
+      color: #a0a0a0;
     }
 
-    .contact-info p {
-      margin: 5px 0;
-    }
-
-    .contact-info a {
-      color: #8b0000;
-      text-decoration: none;
-    }
-
-    .contact-info a:hover {
-      text-decoration: underline;
-    }
-
-    .footer {
-      margin-top: 15px;
-      font-size: 12px;
-      color: #000000;
-      text-align: center;
+    .rating-star.selected {
+      color: #f0e6d2; /* Light parchment color */
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <h1>WEBSITE_TITLE</h1>
-    <form id="queryForm">
-      <label for="queryInput">INPUT_TITLE</label>
-      <input
-        type="text"
-        id="queryInput"
-        name="queryInput"
-        placeholder="INPUT_PLACEHOLDER"
-        required
-      />
-      <button type="submit">Submit</button>
-    </form>
+<body class="flex flex-col min-h-screen">
 
-    <div id="loader"></div>
+  <!-- Notification Banner -->
+  <div id="notification" class="notification">Query submitted successfully!</div>
 
-    <div id="result" class="result"></div>
+  <!-- Main Content Wrapper -->
+  <div class="flex-grow flex items-center justify-center">
+    <!-- Main Container -->
+    <div class="steampunk-bg shadow-xl rounded-xl p-8 w-full max-w-5xl space-y-6 text-gray-200 flex">
+      <!-- Left Section: Form -->
+      <div class="w-2/3 pr-4">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-4xl font-extrabold text-yellow-500">⚙️ WEBSITE_TITLE ⚙️</h1>
+          <a href="mailto:lukamindjek@gmail.com" target="_blank" class="text-sm text-yellow-500 hover:underline">Contact Support</a>
+        </div>
 
-    <div class="contact-info">
-      <p>Need a custom RAG app? Contact me:</p>
-      <p><a href="http://lukamindek.com" target="_blank">lukamindek.com</a></p>
-      <p>Email: <a href="mailto:lukamindjek@gmail.com">lukamindjek@gmail.com</a></p>
-      <p>Phone: 095 767 4099</p>
-    </div>
+        <!-- Form Section in a Card -->
+        <div class="p-6 rounded-xl shadow-md bg-gray-800 space-y-4">
+          <h2 class="text-2xl font-semibold text-yellow-500">INPUT_TITLE</h2>
+          <form id="queryForm" class="space-y-6">
+            <div>
+              <label for="queryInput" class="block font-medium text-yellow-400">INPUT_TITLE</label>
+              <input 
+                type="text" 
+                id="queryInput" 
+                name="queryInput" 
+                class="w-full mt-2 p-3 steampunk-input rounded-xl focus:ring-2 focus:ring-yellow-500 placeholder-gray-500"
+                placeholder="INPUT_PLACEHOLDER" 
+                required
+              />
+            </div>
 
-    <div class="footer">
-      <p>&copy; 2024 Luka Mindek</p>
+            <div class="flex justify-center">
+              <button 
+                type="submit" 
+                class="steampunk-btn py-3 px-6 rounded-xl shadow-md">
+                Submit ⚙️
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Loader -->
+        <div id="loader" class="flex justify-center items-center mt-6 hidden">
+          <div class="loader"></div>
+        </div>
+
+        <!-- Result Section in a Card -->
+        <div id="result" class="mt-6 p-4 bg-gray-700 rounded-xl text-gray-200 hidden shadow-md">
+          <!-- Result text will go here -->
+        </div>
+      </div>
+
+      <!-- Right Section: Tutorial -->
+      <div class="tutorial w-1/3">
+        <h2 class="text-2xl font-semibold text-yellow-500 mb-4">🔧 How to Use This App</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li><strong>Enter Your Query:</strong> Type your question or message in the input field provided.</li>
+          <li><strong>Submit:</strong> Click on the <em>Submit ⚙️</em> button to send your query.</li>
+          <li><strong>Wait for Response:</strong> A loader will appear while we process your request.</li>
+          <li><strong>View Answer:</strong> Your answer will appear below once ready.</li>
+          <li><strong>Rate the Response:</strong> Use the gears to rate your experience.</li>
+        </ol>
+        <div class="mt-6">
+          <h3 class="text-xl font-semibold text-yellow-500">Need Assistance?</h3>
+          <p class="mt-2">If you have any questions or need assistance, feel free to reach out to our support team by clicking on the "Contact Support" link above.</p>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Footer -->
+  <div class="mt-8 text-center text-sm text-gray-400">
+    <p>Need a better system? Email me at <a href="mailto:lukamindjek@gmail.com" target="_blank" class="underline">lukamindjek@gmail.com</a></p>
+    <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+  </div>
+
   <script>
+    // Handle form submission
     document.getElementById("queryForm").addEventListener("submit", function (event) {
       event.preventDefault();
 
       const loader = document.getElementById("loader");
       const resultBox = document.getElementById("result");
+      const notification = document.getElementById("notification");
 
-      loader.style.display = "block";
+      loader.classList.remove("hidden");
       resultBox.textContent = "";
+      resultBox.classList.add("hidden");
 
       const query = document.getElementById("queryInput").value;
 
-      fetch("/.netlify/functions/query_rag", {
+      fetch("/.netlify/functions/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ query: query }),
       })
-      .then((response) => response.json())
-      .then((data) => {
-        loader.style.display = "none";
-        resultBox.textContent = data.answer || "No answer received";
-      })
-      .catch((error) => {
-        loader.style.display = "none";
-        resultBox.textContent = "Error fetching response";
-        console.error("Error:", error);
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = data.answer || "No answer received";
+          resultBox.classList.remove("hidden");
+        })
+        .catch((error) => {
+          loader.classList.add("hidden");
+          resultBox.textContent = "Error fetching response";
+          resultBox.classList.remove("hidden");
+
+          // Display the error notification
+          notification.textContent = "Error submitting query!";
+          notification.classList.add("error");
+          notification.style.display = "block";
+
+          console.error("Error:", error);
+
+          // Hide the notification after a few seconds
+          setTimeout(() => {
+            notification.style.display = "none";
+          }, 3000);
+        });
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-star").forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-star").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-star[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
       });
     });
   </script>

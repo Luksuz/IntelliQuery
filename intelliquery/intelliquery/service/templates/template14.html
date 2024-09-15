@@ -4,97 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WEBSITE_TITLE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Nature-inspired color palette and styling */
     body {
-      font-family: 'Courier New', Courier, monospace;
-      background-color: #f0e3ce;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #2e2e2e;
+      background-color: #f0f9f0; /* Light green background */
+      font-family: 'Lora', serif; /* Elegant, nature-inspired font */
+      color: #2f4f4f; /* Dark slate gray text */
     }
 
-    .container {
-      background: #d3c7b0;
-      padding: 40px;
-      border-radius: 4px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      border: 2px solid #6e5e52;
+    .nature-bg {
+      background-color: #ffffff;
+      border: 2px solid #a3c9a8;
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Subtle paper texture */
     }
 
-    h1 {
-      margin-bottom: 20px;
-      font-size: 32px;
-      color: #3b3b3b;
+    .nature-btn {
+      background-color: #7bb992; /* Soft green */
+      color: #ffffff;
       font-weight: bold;
-      text-transform: uppercase;
+      transition: background-color 0.3s;
     }
 
-    label {
-      font-size: 18px;
-      color: #4a4a4a;
-      margin-bottom: 8px;
-      display: block;
-      text-align: left;
+    .nature-btn:hover {
+      background-color: #92c9a0; /* Lighter green on hover */
     }
 
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #7b6e5e;
-      border-radius: 4px;
-      background-color: #e0d5c2;
-      color: #3a3a3a;
-      box-sizing: border-box;
-      font-size: 16px;
+    .rounded-xl {
+      border-radius: 15px;
     }
 
-    button {
-      width: 100%;
-      padding: 14px;
-      background-color: #4b4b4b;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-      text-transform: uppercase;
+    .nature-input {
+      background-color: #e6f2e6;
+      border: 2px solid #a3c9a8;
+      color: #2f4f4f;
     }
 
-    button:hover {
-      background-color: #383838;
-    }
-
-    .result {
-      margin-top: 20px;
+    /* Tutorial section styling */
+    .tutorial {
+      background-color: #e6f2e6;
+      border: 2px solid #a3c9a8;
       padding: 20px;
-      background-color: #e7dfcf;
-      border-radius: 8px;
-      white-space: pre-wrap;
-      text-align: left;
-      font-size: 16px;
-      color: #2e2e2e;
-      border: 1px solid #6e5e52;
+      border-radius: 15px;
+      margin-left: 20px;
+      color: #2f4f4f;
     }
 
-    #loader {
-      border: 6px solid #f3f3f3;
+    .notification {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #7bb992;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Loader icon */
+    .loader {
+      border: 5px solid #e0e0e0;
       border-radius: 50%;
-      border-top: 6px solid #3b3b3b;
+      border-top: 5px solid #7bb992;
       width: 50px;
       height: 50px;
       animation: spin 1s linear infinite;
-      display: none;
-      margin: 20px auto;
     }
 
     @keyframes spin {
@@ -102,95 +91,161 @@
       100% { transform: rotate(360deg); }
     }
 
-    .contact-info {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #6e5e52;
-      font-size: 14px;
-      text-align: center;
-      color: #5a5a5a;
+    /* Rating system icons */
+    .rating-leaf {
+      cursor: pointer;
+      color: #a3c9a8;
     }
 
-    .contact-info a {
-      color: #3b3b3b;
-      text-decoration: none;
+    .rating-leaf.selected {
+      color: #7bb992; /* Selected leaf color */
     }
 
-    .contact-info a:hover {
-      text-decoration: underline;
-    }
-
-    .footer {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #5a5a5a;
-    }
+    /* Importing Lora font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
   </style>
 </head>
-<body>
-  <div class="container">
-    <h1>WEBSITE_TITLE</h1>
-    <form id="queryForm">
-      <label for="queryInput">INPUT_TITLE</label>
-      <input
-        type="text"
-        id="queryInput"
-        name="queryInput"
-        placeholder="INPUT_PLACEHOLDER"
-        required
-      />
+<body class="flex flex-col min-h-screen">
 
-      <button type="submit">Get Answer</button>
-    </form>
+  <!-- Notification Banner -->
+  <div id="notification" class="notification">Query submitted successfully!</div>
 
-    <div id="loader"></div>
+  <!-- Main Content Wrapper -->
+  <div class="flex-grow flex items-center justify-center">
+    <!-- Main Container -->
+    <div class="nature-bg shadow-xl rounded-xl p-8 w-full max-w-5xl space-y-6 flex">
+      <!-- Left Section: Form -->
+      <div class="w-2/3 pr-4">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-4xl font-extrabold text-green-700">🌿 WEBSITE_TITLE 🌿</h1>
+          <a href="mailto:lukamindjek@gmail.com" target="_blank" class="text-sm text-green-700 hover:underline">Contact Support</a>
+        </div>
 
-    <div id="result" class="result"></div>
+        <!-- Form Section in a Card -->
+        <div class="p-6 rounded-xl shadow-md bg-white space-y-4">
+          <h2 class="text-2xl font-semibold text-green-700">INPUT_TITLE</h2>
+          <form id="queryForm" class="space-y-6">
+            <div>
+              <label for="queryInput" class="block font-medium text-green-600">INPUT_TITLE</label>
+              <input 
+                type="text" 
+                id="queryInput" 
+                name="queryInput" 
+                class="w-full mt-2 p-3 nature-input rounded-xl focus:ring-2 focus:ring-green-500 placeholder-gray-500"
+                placeholder="INPUT_PLACEHOLDER" 
+                required
+              />
+            </div>
 
-    <div class="contact-info">
-      <p>Need help with a custom RAG app?</p>
-      <p><a href="http://lukamindek.com" target="_blank">lukamindek.com</a></p>
-      <p><a href="mailto:lukamindjek@gmail.com">lukamindjek@gmail.com</a></p>
-      <p>Phone: 095 767 4099</p>
-    </div>
+            <div class="flex justify-center">
+              <button 
+                type="submit" 
+                class="nature-btn py-3 px-6 rounded-xl shadow-md">
+                Submit 🌱
+              </button>
+            </div>
+          </form>
+        </div>
 
-    <div class="footer">
-      <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+        <!-- Loader -->
+        <div id="loader" class="flex justify-center items-center mt-6 hidden">
+          <div class="loader"></div>
+        </div>
+
+        <!-- Result Section in a Card -->
+        <div id="result" class="mt-6 p-4 bg-white rounded-xl text-gray-700 hidden shadow-md">
+          <!-- Result text will go here -->
+          <p id="answerText"></p>
+        </div>
+      </div>
+
+      <!-- Right Section: Tutorial -->
+      <div class="tutorial w-1/3">
+        <h2 class="text-2xl font-semibold text-green-700 mb-4">🍀 How to Use This App</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li><strong>Enter Your Query:</strong> Type your question or message in the input field provided.</li>
+          <li><strong>Submit:</strong> Click on the <em>Submit 🌱</em> button to send your query.</li>
+          <li><strong>Wait for Response:</strong> A loader will appear while we process your request.</li>
+          <li><strong>View Answer:</strong> Your answer will appear below once ready.</li>
+          <li><strong>Rate the Response:</strong> Use the leaves to rate your experience.</li>
+        </ol>
+        <div class="mt-6">
+          <h3 class="text-xl font-semibold text-green-700">Need Assistance?</h3>
+          <p class="mt-2">If you have any questions or need assistance, feel free to reach out by clicking on the "Contact Support" link above.</p>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Footer -->
+  <div class="mt-8 text-center text-sm text-green-700">
+    <p>Need a better system? Email me at <a href="mailto:lukamindjek@gmail.com" target="_blank" class="underline">lukamindjek@gmail.com</a></p>
+    <p>&copy; 2024 Luka Minđek, all rights reserved</p>
+  </div>
+
   <script>
-    document
-      .getElementById("queryForm")
-      .addEventListener("submit", function (event) {
-        event.preventDefault();
+    // Handle form submission
+    document.getElementById("queryForm").addEventListener("submit", function (event) {
+      event.preventDefault();
 
-        const loader = document.getElementById("loader");
-        const resultBox = document.getElementById("result");
+      const loader = document.getElementById("loader");
+      const resultBox = document.getElementById("result");
+      const answerText = document.getElementById("answerText");
+      const notification = document.getElementById("notification");
 
-        loader.style.display = "block";
-        resultBox.textContent = "";
+      loader.classList.remove("hidden");
+      answerText.textContent = "";
+      resultBox.classList.add("hidden");
 
-        const query = document.getElementById("queryInput").value;
+      const query = document.getElementById("queryInput").value;
 
-        fetch("/.netlify/functions/search", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ query: query }),
+      fetch("/.netlify/functions/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loader.classList.add("hidden");
+          answerText.textContent = data.answer || "No answer received";
+          resultBox.classList.remove("hidden");
+          // Reset rating leaves
+          document.querySelectorAll(".rating-leaf").forEach(s => s.classList.remove("selected"));
         })
-          .then((response) => response.json())
-          .then((data) => {
-            loader.style.display = "none";
-            resultBox.textContent = data.answer || "No answer received";
-          })
-          .catch((error) => {
-            loader.style.display = "none";
-            resultBox.textContent = "Error fetching response";
-            console.error("Error:", error);
-          });
+        .catch((error) => {
+          loader.classList.add("hidden");
+          answerText.textContent = "Error fetching response";
+          resultBox.classList.remove("hidden");
+
+          // Display the error notification
+          notification.textContent = "Error submitting query!";
+          notification.classList.add("error");
+          notification.style.display = "block";
+
+          console.error("Error:", error);
+
+          // Hide the notification after a few seconds
+          setTimeout(() => {
+            notification.style.display = "none";
+          }, 3000);
+        });
+    });
+
+    // Rating system
+    document.querySelectorAll(".rating-leaf").forEach(leaf => {
+      leaf.addEventListener("click", function () {
+        const rating = this.getAttribute("data-rating");
+        document.querySelectorAll(".rating-leaf").forEach(s => s.classList.remove("selected"));
+        for (let i = 1; i <= rating; i++) {
+          document.querySelector(`.rating-leaf[data-rating="${i}"]`).classList.add("selected");
+        }
+        console.log(`Rating given: ${rating}`);
+        // You can add code here to send the rating to your server
       });
+    });
   </script>
 </body>
 </html>

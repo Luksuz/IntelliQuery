@@ -53,7 +53,7 @@ class LogoutView(APIView):
 
 class GenerateRAGView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access
+    #permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -64,10 +64,12 @@ class GenerateRAGView(APIView):
     )
     def post(self, request, *args, **kwargs):
         serializer = RAGRequestSerializer(data=request.data)
+        print(request.FILES)
         if serializer.is_valid():
             description = serializer.validated_data['description']
             template = serializer.validated_data['template']
             docs = request.FILES.getlist('documents')
+            print(docs)
 
             try:
                 result = process_rag(description, template, docs) 
