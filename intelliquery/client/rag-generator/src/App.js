@@ -61,7 +61,9 @@ function TypewriterEffect({ messages }) {
 
   return (
     <div className="mt-4 p-4 bg-gray-100 rounded-md text-center">
-      <p className="text-gray-700 text-lg font-medium">{displayedText}&nbsp;</p>
+      <p className="text-gray-700 text-lg font-medium">
+        {displayedText}&nbsp;
+      </p>
     </div>
   );
 }
@@ -73,7 +75,10 @@ function App() {
   const [url, setUrl] = useState("");
   const [generating, setGenerating] = useState(false);
   const [navOpen, setNavOpen] = useState(false); // For mobile menu
+  const [hoveredTemplate, setHoveredTemplate] = useState(null);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
+  // Event handlers
   const handleSubmit = async (e) => {
     e.preventDefault();
     setGenerating(true); // Show typewriter effect
@@ -86,7 +91,7 @@ function App() {
     }
 
     try {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Use the real token
+      const token = "REPLACE_WITH_YOUR_TOKEN"; // Replace with your actual token
 
       const response = await fetch(
         "https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery",
@@ -121,6 +126,7 @@ function App() {
     setFiles([...e.target.files]);
   };
 
+  // Template data
   const templates = [
     ["template5", "Standard"],
     ["template6", "Gaming theme"],
@@ -151,8 +157,6 @@ function App() {
     template11: "template11.png",
     template12: "template12.png",
     template13: "template13.png",
-    template14: "template14.png",
-
   };
 
   const typewriterMessages = [
@@ -189,8 +193,20 @@ function App() {
     },
   ];
 
+  // Function to handle mouse enter on template
+  const handleMouseEnter = (template, event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setHoverPosition({ x: rect.left + rect.width / 2, y: rect.top });
+    setHoveredTemplate(template);
+  };
+
+  // Function to handle mouse leave on template
+  const handleMouseLeave = () => {
+    setHoveredTemplate(null);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-400 via-blue-300 to-blue-200">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-400 via-blue-300 to-blue-200 relative">
       {/* Navbar */}
       <header className="w-full bg-white bg-opacity-80 shadow-md fixed top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -270,7 +286,7 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-grow flex flex-col md:flex-row gap-8 max-w-7xl mx-auto mt-24 px-4 mb-5">
+      <div className="flex-grow flex flex-col md:flex-row gap-8 max-w-7xl mx-auto mt-24 px-4 mb-5 relative">
         {/* Form Section */}
         <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full md:w-1/2">
           <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
@@ -278,6 +294,7 @@ function App() {
           </h1>
 
           <form onSubmit={handleSubmit}>
+            {/* Description Input */}
             <div className="mb-6">
               <label
                 className="block text-gray-700 text-sm font-medium mb-2"
@@ -294,6 +311,7 @@ function App() {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
+
             {/* File Input Section */}
             <div className="mb-6">
               <label
@@ -306,7 +324,7 @@ function App() {
                 <input
                   type="file"
                   id="file"
-                  accept=".pdf,.docx,.doc,.xlsx,.xls,.txt,.csv,.rtf,.odt,.ods,.pptx,.ppt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,text/csv,application/pdf"
+                  accept=".pdf,.docx,.doc,.xlsx,.xls,.txt,.csv,.rtf,.odt,.ods,.pptx,.ppt"
                   className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
                    file:rounded-full file:border-0 file:text-sm file:font-medium
                    file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100
@@ -337,47 +355,34 @@ function App() {
               </div>
             </div>
 
-            <div className="mb-6">
+            {/* Template Selection Section */}
+            <div className="mb-6 relative">
               <label className="block text-gray-700 text-sm font-medium mb-2">
                 Select Template
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {templates.map(([template, displayName]) => (
-                  <div
-                    key={template}
-                    className={`relative cursor-pointer p-4 border rounded-md transition duration-300 ease-in-out hover:shadow-md ${
-                      selectedTemplate === template
-                        ? "border-purple-500 bg-purple-50"
-                        : "border-gray-300 bg-white"
-                    }`}
-                    onClick={() => handleTemplateSelection(template)}
-                    onMouseEnter={() => {
-                      const imgElement = document.getElementById(
-                        `image-popup-${template}`
-                      );
-                      if (imgElement) imgElement.style.display = "block";
-                    }}
-                    onMouseLeave={() => {
-                      const imgElement = document.getElementById(
-                        `image-popup-${template}`
-                      );
-                      if (imgElement) imgElement.style.display = "none";
-                    }}
-                  >
-                    <span className="text-gray-700">{displayName}</span>
-                    <img
-                      id={`image-popup-${template}`}
-                      src={templateImages[template]}
-                      alt={template}
-                      className="absolute top-[-220px] left-1/2 transform -translate-x-1/2 max-w-xs w-auto h-auto object-contain hidden outline rounded-md shadow-lg"
-                    />
-                  </div>
-                ))}
+              <div className="max-h-48 overflow-y-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {templates.map(([template, displayName]) => (
+                    <div
+                      key={template}
+                      className={`relative cursor-pointer p-4 border rounded-md transition duration-300 ease-in-out hover:shadow-md ${
+                        selectedTemplate === template
+                          ? "border-purple-500 bg-purple-50"
+                          : "border-gray-300 bg-white"
+                      }`}
+                      onClick={() => handleTemplateSelection(template)}
+                      onMouseEnter={(e) => handleMouseEnter(template, e)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <span className="text-gray-700">{displayName}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
+            {/* Generate Button */}
             <div className="flex items-center justify-center">
-              {/* Button with Typewriter Effect */}
               {generating ? (
                 <TypewriterEffect messages={typewriterMessages} />
               ) : (
@@ -409,6 +414,24 @@ function App() {
           </ul>
         </div>
       </div>
+
+      {/* Hover Image Preview */}
+      {hoveredTemplate && (
+        <div
+          className="absolute z-50 pointer-events-none"
+          style={{
+            left: hoverPosition.x,
+            top: hoverPosition.y - 10, // Adjust the offset as needed
+            transform: "translate(-50%, -100%)",
+          }}
+        >
+          <img
+            src={templateImages[hoveredTemplate]}
+            alt={hoveredTemplate}
+            className="max-w-xs w-auto h-auto object-contain outline rounded-md shadow-lg"
+          />
+        </div>
+      )}
 
       {/* Generated URL Section */}
       {url && (
@@ -485,3 +508,20 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Use the real token
