@@ -142,6 +142,17 @@ function App() {
     template2: "template2.png",
     template3: "template3.png",
     template4: "template4.png",
+    template5: "template5.png",
+    template6: "template6.png",
+    template7: "template7.png",
+    template8: "template8.png",
+    template9: "template9.png",
+    template10: "template10.png",
+    template11: "template11.png",
+    template12: "template12.png",
+    template13: "template13.png",
+    template14: "template14.png",
+
   };
 
   const typewriterMessages = [
