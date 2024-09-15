@@ -220,25 +220,25 @@ function App() {
           {/* Navigation Links */}
           <nav className="hidden md:flex space-x-4">
             <a
-              href="/"
+              href="#"
               className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               Home
             </a>
             <a
-              href="/my-rags"
+              href="#"
               className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               My RAGs
             </a>
             <a
-              href="/login"
+              href="#"
               className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               Login
             </a>
             <a
-              href="/register"
+              href="#"
               className="px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
             >
               Register
