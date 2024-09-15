@@ -122,10 +122,19 @@ function App() {
   };
 
   const templates = [
-    ["template1", "Standard"],
-    ["template2", "Dark Green"],
-    ["template3", "Neutral"],
-    ["template4", "Light Red"],
+    ["template5", "Standard"],
+    ["template6", "Gaming theme"],
+    ["template7", "Cosmic theme"],
+    ["template8", "Legal theme"],
+    ["template9", "Data centric theme"],
+    ["template10", "Neurology theme"],
+    ["template11", "Hello kitty theme"],
+    ["template12", "Steampunk theme"],
+    ["template13", "Nature theme"],
+    ["template1", "Minimal standard"],
+    ["template2", "Minimal dark green"],
+    ["template3", "Minimal neutral"],
+    ["template4", "Minimal light Red"],
   ];
 
   const templateImages = {
