@@ -257,25 +257,25 @@ function App() {
           <nav className="md:hidden bg-white bg-opacity-90 shadow-md">
             <div className="px-4 py-2 space-y-1">
               <a
-                href="/"
+                href="#"
                 className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
               >
                 Home
               </a>
               <a
-                href="/my-rags"
+                href="#"
                 className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
               >
                 My RAGs
               </a>
               <a
-                href="/login"
+                href="#"
                 className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
               >
                 Login
               </a>
               <a
-                href="/register"
+                href="#"
                 className="block px-4 py-2 text-gray-800 rounded-md hover:text-purple-600 transition duration-300"
               >
                 Register
