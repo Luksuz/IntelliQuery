@@ -91,7 +91,7 @@ function App() {
     }
 
     try {
-      const token = "REPLACE_WITH_YOUR_TOKEN"; // Replace with your actual token
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Replace with your actual token
 
       const response = await fetch(
         "https://europe-west6-woven-perigee-425918-q9.cloudfunctions.net/Intelliquery",
@@ -524,4 +524,3 @@ export default App;
 
 
 
-//      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjA5MzU0LCJpYXQiOjE3MjYyMDk0MTQsImp0aSI6ImU0ZTQ4YzgxY2IzZTQ0ZDY5Nzg1NTlkOWRhNzY1ZjFhIiwidXNlcl9pZCI6Nn0.4qxEUE_DpO0S0NOo6b_AD2SZ6sGWnguUSezrU4WlIRI"; // Use the real token
